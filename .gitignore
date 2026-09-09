@@ -1,0 +1,16 @@
+
+dataset_a/
+dataset_b/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+
+outputs/
+
+
+.DS_Store
+Thumbs.db
+.vscode/

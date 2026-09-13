@@ -147,3 +147,35 @@ the boundary between event types.
 **Decision:** v2 remains the best validated detector so far. Both v3 (time-
 based merge) and v4 (identity-based filter) were tested rigorously and
 rejected based on full-dataset evidence, not single-session results.
+
+## Day 2 (final): decision to stop filter refinement
+
+**Comparison table (all 63 sessions, Dataset A):**
+
+| Detector | Recall | Precision | F1 |
+|---|---|---|---|
+| v2 (app_switch + browser_navigation, no filter) | 85.1% | 36.6% | **50.8%** |
+| v3 (min_gap=10s time-based merge) | 78.9% | 35.4% | 48.7% |
+| v4 (app-identity filter) | 75.0% | 25.9% | 38.3% |
+
+**Why v4 failed — the core diagnosis:**
+The filter assumed "same app name = same task, no boundary" and "different
+app name = task changed, keep boundary." This assumption doesn't hold:
+same-app-name is not the same thing as same-task. A single business process
+can span multiple app switches internally (e.g. checking Excel, then
+Chrome, then back to Excel, all within one task), and conversely, two
+different processes can occur back-to-back within the exact same app with
+no app-switch event marking the transition at all. App identity and task
+identity are two different granularities that don't map cleanly onto each
+other, so filtering purely on identity-change discards real signal along
+with noise, and fails to add signal where the app never changes between
+tasks.
+
+**Decision:** Stopping boundary-filtering refinement after two systematic
+rejections (v3, v4), each tested across the full 63-session dataset rather
+than assumed from a single case. Adopting v2 (recall 85.1%, precision
+36.6%, F1 50.8%) as the final detector. Further precision gains would
+require a fundamentally different signal (e.g. content-based task
+identification, not just activity-timing heuristics) rather than another
+filter on the same event types - out of scope for this phase. Proceeding
+to segment construction and labeling using v2's boundaries.

@@ -119,3 +119,31 @@ across the full range, not a single arbitrary guess.
 
 **Decision:** v2 (app_switch + browser_navigation, no filtering) remains
 the best validated detector: recall 85.1%, precision 36.6%, F1 50.8%.
+
+## Day 2 (continued): identity-based filter 
+
+Tried filtering by app identity instead of time proximity — keep a boundary
+only if the app/URL actually changed from the last kept one. Reasoning: this
+should collapse pure same-app noise (Chrome->Chrome->Chrome) regardless of
+timing, without touching genuine fast different-app transitions.
+
+**Result: also rejected, based on evidence.**
+
+| Detector | Recall | Precision | F1 |
+|---|---|---|---|
+| v2 (no filter, baseline) | 85.1% | 36.6% | **50.8%** |
+| v3 (min_gap=10s merge) | 78.9% | 35.4% | 48.7% |
+| v4 (app-identity filter) | 75.0% | 25.9% | 38.3% |
+
+Total predicted boundaries dropped sharply (52,313 -> 8,598, a 6x cut),
+confirming the filter is aggressively removing candidates. But precision
+*also* dropped instead of improving, which is unexpected for a filter that's
+supposedly only removing noise. This suggests the "keep first event in a
+same-identity streak" rule discards genuinely useful predictions along with
+the noise, and mixing two different identity types (app names for
+app_switch, URLs for browser_navigation) may cause unintended behavior at
+the boundary between event types.
+
+**Decision:** v2 remains the best validated detector so far. Both v3 (time-
+based merge) and v4 (identity-based filter) were tested rigorously and
+rejected based on full-dataset evidence, not single-session results.

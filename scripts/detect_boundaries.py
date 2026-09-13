@@ -71,6 +71,41 @@ def detect_boundaries_v3(events, min_gap_seconds=10):
     raw_boundaries = detect_boundaries_v2(events)
     return merge_close_boundaries(raw_boundaries, min_gap_seconds=min_gap_seconds)
 
+def _get_app_identity(e):
+    """Returns a hashable identity for 'what app/page this event is about'."""
+    if e["event_type"] == "app_switch":
+        new_app = e.get("payload", {}).get("new_app") or {}
+        return new_app.get("app_name")
+    elif e["event_type"] == "browser_navigation":
+        payload = e.get("payload", {})
+        url = payload.get("url")
+        if not url:
+            tab = e.get("context", {}).get("active_browser_tab") or {}
+            url = tab.get("url")
+        return url
+    return None
+
+
+def filter_self_transitions(events):
+    """Keep a boundary only if the app identity actually changed from the last kept one."""
+    candidates = [e for e in events if e["event_type"] in ("app_switch", "browser_navigation")]
+    candidates.sort(key=lambda e: e["timestamp_iso"])
+
+    filtered = []
+    last_kept_app = None
+    for e in candidates:
+        current_app = _get_app_identity(e)
+        if current_app != last_kept_app:
+            filtered.append(e["timestamp_iso"])
+            last_kept_app = current_app
+
+    return filtered
+
+
+def detect_boundaries_v4(events):
+    """v2 candidates, filtered by app-identity change instead of time proximity."""
+    return filter_self_transitions(events)
+
 # ---- Run baseline on one session ----
 
 session_dir = "dataset_a/ses_20260630-124826-CHAITANYA0BCF"# pick any session you have

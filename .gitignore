@@ -8,9 +8,10 @@ __pycache__/
 venv/
 
 
-outputs/
 
 
 .DS_Store
 Thumbs.db
 .vscode/
+
+.ipynb_checkpoints/

@@ -98,7 +98,7 @@ a corresponding gain in precision.
 This is a deliberate example of testing a well-justified idea empirically
 rather than assuming it works, and rejecting it when the data disagreed.
 
-## Day 3 (continued): threshold sweep
+## Day 2 (continued): threshold sweep
 
 Swept `min_gap_seconds` across 9 values (1s, 2s, 3s, 5s, 7s, 10s, 12s, 15s, 20s)
 on the full 63-session dataset, to check if a different threshold could make

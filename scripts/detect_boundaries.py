@@ -32,12 +32,20 @@ def detect_boundaries_v1(events):
     return boundaries
 
 
+def detect_boundaries_v2(events):
+    """Improved: app_switch OR browser_navigation events as candidate boundaries."""
+    boundaries = []
+    for e in events:
+        if e["event_type"] in ("app_switch", "browser_navigation"):
+            boundaries.append(e["timestamp_iso"])
+    return boundaries
+
 # ---- Run baseline on one session ----
 
-session_dir = "dataset_a/ses_20260630-121953-LAPTOP-R36BQBTE"  # pick any session you have
+session_dir = "dataset_a/ses_20260630-124826-CHAITANYA0BCF"# pick any session you have
 
 events = load_session_events(session_dir)
-predicted = detect_boundaries_v1(events)
+predicted = detect_boundaries_v2(events)
 
 with open(Path(session_dir) / "gt_manifest.json", encoding="utf-8") as f:
     gt_manifest = json.load(f)

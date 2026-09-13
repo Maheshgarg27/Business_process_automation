@@ -1,14 +1,15 @@
-
 dataset_a/
 dataset_b/
+dataset_a_clean/
+dataset_b_clean/
+dataset_a_clean.zip
+dataset_b_clean.zip
+*.zip
 
 __pycache__/
 *.py[cod]
 .venv/
 venv/
-
-
-
 
 .DS_Store
 Thumbs.db

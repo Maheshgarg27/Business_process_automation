@@ -171,6 +171,16 @@ other, so filtering purely on identity-change discards real signal along
 with noise, and fails to add signal where the app never changes between
 tasks.
 
+**Why v3 failed — the core diagnosis:**
+The time-gap merge filter assumed "boundaries occurring close together in
+time are noise, not real transitions." This assumption doesn't hold in
+general: real task transitions can genuinely happen fast (some real
+executions were as short as ~16.6s), so a blanket time threshold collapses
+genuine closely-spaced transitions along with true noise. Swept 9
+thresholds (1s-20s) across all 63 sessions - none beat v2 on the combined
+recall/precision tradeoff, ruling out the entire time-based approach rather
+than just one bad threshold guess.
+
 **Decision:** Stopping boundary-filtering refinement after two systematic
 rejections (v3, v4), each tested across the full 63-session dataset rather
 than assumed from a single case. Adopting v2 (recall 85.1%, precision
@@ -179,3 +189,16 @@ require a fundamentally different signal (e.g. content-based task
 identification, not just activity-timing heuristics) rather than another
 filter on the same event types - out of scope for this phase. Proceeding
 to segment construction and labeling using v2's boundaries.
+
+**Why precision of 36.6% is acceptable for this use case:**
+The next phase (segment construction and labeling) aggregates raw
+boundaries into labeled segments. In that context, the two error types are
+not equally costly. Over-segmentation (a false-positive boundary splitting
+one real task into two segments) is relatively cheap - the resulting
+segments likely still carry the same or adjacent label and can be merged
+during aggregation. Under-segmentation (a missed real boundary, merging two
+different tasks into one) is more costly, since it corrupts the label of
+the entire merged segment with no clean way to recover the split
+afterward. Given this asymmetry, prioritizing recall (85.1%) over precision
+(36.6%) is the right tradeoff for this pipeline, even though 36.6%
+precision looks weak in isolation.

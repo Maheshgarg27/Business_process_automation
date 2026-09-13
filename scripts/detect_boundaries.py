@@ -82,7 +82,7 @@ with open(Path(session_dir) / "gt_manifest.json", encoding="utf-8") as f:
     gt_manifest = json.load(f)
 
 print(f"Events loaded: {len(events)}")
-print(f"Predicted boundaries (app_switch count): {len(predicted)}")
+print(f"Predicted boundaries (app_switch + browser_navigation): {len(predicted)}")
 
 score = evaluate(predicted, gt_manifest)  # evaluate() extracts real boundaries itself
-print(f"\nBoundary detection score (app_switch only): {score:.1f}%")
+print(f"\nBoundary detection score (v2): {score:.1f}%")

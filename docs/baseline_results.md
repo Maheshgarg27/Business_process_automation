@@ -38,3 +38,21 @@ Adding browser_navigation as a second signal closed a large part of the gap
 left by app_switch alone — confirming that many task boundaries happen
 *within* the same app (e.g. navigating between pages on a portal) rather
 than only when switching apps entirely.
+
+## Final: full dataset (all 63 sessions)
+
+Ran both detectors across every session in Dataset A and averaged the score.
+
+| Detector | Average score across 63 sessions |
+|---|---|
+| v1 (app_switch only) | 64.6% |
+| v2 (+ browser_navigation) | **85.1%** |
+
+Sessions failed: 0 (both versions)
+
+## Interpretation
+The single-session tests (53%, 73.5% -> 88.2%) were in the right ballpark but
+not fully representative — per-session scores vary quite a bit (individual
+sessions ranged from ~31% up to ~96%). The 63-session average is the number
+that should actually go in a report, since it's not vulnerable to picking a
+lucky or unlucky single session.

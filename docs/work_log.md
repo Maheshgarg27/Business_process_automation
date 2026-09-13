@@ -97,3 +97,25 @@ a corresponding gain in precision.
 **Decision:** v2 remains the best validated detector. v3 was not adopted.
 This is a deliberate example of testing a well-justified idea empirically
 rather than assuming it works, and rejecting it when the data disagreed.
+
+## Day 3 (continued): threshold sweep
+
+Swept `min_gap_seconds` across 9 values (1s, 2s, 3s, 5s, 7s, 10s, 12s, 15s, 20s)
+on the full 63-session dataset, to check if a different threshold could make
+the merge filter work where 10s didn't.
+
+| min_gap | Recall | Precision | F1 |
+|---|---|---|---|
+| 0 (v2, no filter) | 85.1% | 36.6% | **50.8%** |
+| 1s | 85.1% | 28.0% | 42.0% |
+| 5s | 83.6% | 24.3% | 37.6% |
+| 10s | 78.9% | 35.4% | 48.7% |
+| 15s | 43.2% | 23.3% | 30.2% |
+| 20s | 37.4% | 26.1% | 30.6% |
+
+**No threshold beat v2 on both recall and precision.** The merge-filter
+approach itself is rejected, not just one bad threshold choice - confirmed
+across the full range, not a single arbitrary guess.
+
+**Decision:** v2 (app_switch + browser_navigation, no filtering) remains
+the best validated detector: recall 85.1%, precision 36.6%, F1 50.8%.

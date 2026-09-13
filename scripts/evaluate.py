@@ -55,6 +55,54 @@ def evaluate(predicted_segments, gt_manifest, tolerance_seconds=3):
 
     return (matched / len(real_boundaries)) * 100
 
+def evaluate_full(predicted_segments, gt_manifest, tolerance_seconds=3):
+    """
+    Like evaluate(), but also reports precision and F1, not just recall.
+
+    recall    = of all REAL boundaries, what % had a predicted boundary
+                nearby? (this is what evaluate() alone returns)
+    precision = of all PREDICTED boundaries, what % were actually near a
+                real boundary? (catches "noisy" detectors that over-predict)
+    f1        = harmonic mean of precision and recall - a single number
+                that only looks good if BOTH are reasonably high.
+
+    Returns a dict: {"recall": ..., "precision": ..., "f1": ...,
+                      "num_real": ..., "num_predicted": ...}
+    """
+    real_boundaries = [
+        _to_epoch_seconds(ex["start_ts"])
+        for proc in gt_manifest["processes"]
+        for ex in proc["executions"]
+    ]
+    predicted_seconds = [_to_epoch_seconds(ts) for ts in predicted_segments]
+
+    if not real_boundaries or not predicted_seconds:
+        return {
+            "recall": 0.0, "precision": 0.0, "f1": 0.0,
+            "num_real": len(real_boundaries), "num_predicted": len(predicted_seconds),
+        }
+
+    matched_real = sum(
+        1 for r in real_boundaries
+        if min(abs(r - p) for p in predicted_seconds) <= tolerance_seconds
+    )
+    recall = (matched_real / len(real_boundaries)) * 100
+
+    useful_predictions = sum(
+        1 for p in predicted_seconds
+        if min(abs(p - r) for r in real_boundaries) <= tolerance_seconds
+    )
+    precision = (useful_predictions / len(predicted_seconds)) * 100
+
+    f1 = (
+        2 * precision * recall / (precision + recall)
+        if (precision + recall) > 0 else 0.0
+    )
+
+    return {
+        "recall": recall, "precision": precision, "f1": f1,
+        "num_real": len(real_boundaries), "num_predicted": len(predicted_seconds),
+    }
 
 if __name__ == "__main__":
     # -----------------------------------------------------------------

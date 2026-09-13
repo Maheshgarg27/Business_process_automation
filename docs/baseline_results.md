@@ -56,3 +56,23 @@ not fully representative — per-session scores vary quite a bit (individual
 sessions ranged from ~31% up to ~96%). The 63-session average is the number
 that should actually go in a report, since it's not vulnerable to picking a
 lucky or unlucky single session.
+
+
+## Important finding: recall alone was misleading
+
+Total real process-executions across all 63 sessions: **2009**
+Total boundaries predicted by v2: **52,313** (26x more than real)
+
+This meant the 85.1% "recall" number, while technically correct, was
+achievable partly just by over-predicting. Added precision and F1:
+
+| Detector | Recall | Precision | F1 |
+|---|---|---|---|
+| v1 (app_switch only) | 64.6% | 35.2% | 45.3% |
+| v2 (+browser_navigation) | 85.1% | 36.6% | **50.8%** |
+
+v2 is still genuinely better (F1 improved), but the gain in recall mostly
+came from predicting more candidates overall, not from being more precise.
+Precision (~35%) is the real bottleneck going forward — future improvements
+should focus on cutting noisy/spurious predicted boundaries, not just
+adding more signals.

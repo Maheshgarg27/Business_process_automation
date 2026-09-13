@@ -67,3 +67,33 @@ signals.
 **Next step:** reduce false-positive predictions (e.g. collapsing rapid
 back-to-back app switches into a single boundary) to raise precision without
 losing recall.
+
+
+**Diagnosed false positives before fixing (Step G):**
+Inspected actual false-positive predictions instead of guessing a fix.
+Found a clear pattern: rapid, same-app clusters of `app_switch` events
+firing within 50-200ms of each other (e.g. "Chrome -> Chrome -> Chrome"),
+clearly UI noise rather than real task transitions (real segments are
+~31.7s on average).
+
+**Built a filter based on that diagnosis (Step H):**
+Implemented `merge_close_boundaries()` — merges candidate boundaries that
+occur within a minimum time gap (tested 5s, 10s, 15s thresholds), since
+no real task execution was shorter than ~16.6s.
+
+**Result: the filter did NOT improve performance — it was measured and rejected.**
+
+| Version | Recall | Precision | F1 |
+|---|---|---|---|
+| v2 (no filter) | 85.1% | 36.6% | **50.8%** |
+| v3, min_gap=10s | 78.9% | 35.4% | 48.7% |
+| v3, min_gap=5s | 83.6% | 24.3% | 37.6% |
+| v3, min_gap=15s | 43.2% | 23.3% | 30.2% |
+
+**Why it failed:** the merge logic collapsed not just noisy clusters, but
+also legitimate, closely-spaced real transitions, which hurt recall without
+a corresponding gain in precision.
+
+**Decision:** v2 remains the best validated detector. v3 was not adopted.
+This is a deliberate example of testing a well-justified idea empirically
+rather than assuming it works, and rejecting it when the data disagreed.

@@ -40,6 +40,37 @@ def detect_boundaries_v2(events):
             boundaries.append(e["timestamp_iso"])
     return boundaries
 
+def merge_close_boundaries(boundaries, min_gap_seconds=10):
+    """
+    Merge candidate boundaries that occur too close together to be real
+    segment breaks. Works on ISO 8601 timestamp strings.
+    """
+    if not boundaries:
+        return []
+
+    from datetime import datetime
+
+    def to_dt(ts):
+        return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+
+    sorted_boundaries = sorted(boundaries, key=to_dt)
+    merged = [sorted_boundaries[0]]
+    last_kept_dt = to_dt(sorted_boundaries[0])
+
+    for b in sorted_boundaries[1:]:
+        b_dt = to_dt(b)
+        if (b_dt - last_kept_dt).total_seconds() >= min_gap_seconds:
+            merged.append(b)
+            last_kept_dt = b_dt
+
+    return merged
+
+
+def detect_boundaries_v3(events, min_gap_seconds=10):
+    """v2 + minimum-segment-duration merge filter."""
+    raw_boundaries = detect_boundaries_v2(events)
+    return merge_close_boundaries(raw_boundaries, min_gap_seconds=min_gap_seconds)
+
 # ---- Run baseline on one session ----
 
 session_dir = "dataset_a/ses_20260630-124826-CHAITANYA0BCF"# pick any session you have

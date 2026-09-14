@@ -305,3 +305,26 @@ routes are not always a fully reliable proxy for business content.
 These findings are consistent with Dataset A's purity ceiling (46.8%)
 and confirm the same limitation applies to Dataset B, where no ground
 truth exists to measure it numerically.
+
+## Analyzing segments.jsonl output
+
+Loaded and inspected the Dataset B segments.jsonl output for sanity:
+shape (1196, 5), 15 unique sessions, 177 unique labels - matches expected
+totals from the pipeline run.
+
+Aggregated per-label statistics (frequency, total time, avg duration,
+number of sessions touching each label). Top finding by total time:
+"Microsoft Word" (generic, no URL) - 268 occurrences, ~26.7 minutes total,
+present in all 15 sessions.
+
+**Key observation:** significant label fragmentation. The same real
+business process (e.g. "payroll-items") appears under multiple different
+labels depending on which secondary app happened to be open alongside the
+browser (e.g. "Edge|payroll-items" vs "Edge+Word|payroll-items" vs
+"Edge+Notepad|payroll-items") - these are very likely the same underlying
+process, split apart by incidental co-occurring apps. This means the raw
+177-label count overstates the true number of distinct business processes;
+before finalizing automation-priority analysis, related labels sharing the
+same URL path need to be grouped together regardless of secondary app.
+
+Saved full breakdown to outputs/label_analysis_summary.csv.

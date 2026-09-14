@@ -328,3 +328,29 @@ before finalizing automation-priority analysis, related labels sharing the
 same URL path need to be grouped together regardless of secondary app.
 
 Saved full breakdown to outputs/label_analysis_summary.csv.
+
+## Testing label consolidation 
+
+Hypothesis (from review): raw labels were over-fragmented by two things
+assumed to be noise - (a) port number (5122/5123/5124) and (b) incidental
+app-combinations (whether Word/Notepad/Excel happened to be open
+alongside the browser).
+
+Built and ran a test comparing three variants across all 63 Dataset A
+sessions:
+- Raw label (baseline): 46.8% purity
+- Drop app-combo only, keep port: 45.9% purity (no meaningful change)
+- Drop BOTH port and app-combo: 38.3% purity (a real drop)
+
+**Finding: the port-number part of the hypothesis was wrong.** Checking
+the earlier per-label ground-truth breakdown, the same URL path on
+different ports maps to different real process codes (e.g.
+.../5123/#/resident-tax and .../5122/#/resident-tax have substantially
+different ground-truth code distributions) - so port carries real signal,
+not noise.
+
+**Decision:** adopted the corrected, evidence-based version - drop only
+the incidental app-combination prefix (negligible effect on purity,
+45.9% vs 46.8%) but keep the port number in the label. Rejected dropping
+port, since it measurably hurt accuracy. This corrected label will be
+used to re-aggregate the Dataset B process-frequency analysis for Step 2.

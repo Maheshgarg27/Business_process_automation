@@ -1,0 +1,7 @@
+{
+  "raw_label_baseline": 46.8,
+  "drop_app_combo_only_keep_port": 45.9,
+  "drop_both_port_and_app_combo": 38.3,
+  "sessions_tested": 63,
+  "decision": "reject dropping port - it carries real signal (same URL path on different ports maps to different real process codes); adopt drop-app-combo-only as the corrected label consolidation"
+}

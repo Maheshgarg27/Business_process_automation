@@ -1,0 +1,14 @@
+import json
+
+day2_results = {
+    "v1_app_switch_only": {"recall": 64.6, "precision": 35.2, "f1": 45.3},
+    "v2_app_switch_plus_navigation": {"recall": 85.1, "precision": 36.6, "f1": 50.8},
+    "v3_time_merge_filter": {"recall": 78.9, "precision": 35.4, "f1": 48.7, "status": "rejected"},
+    "v4_identity_filter": {"recall": 75.0, "precision": 25.9, "f1": 38.3, "status": "rejected"},
+    "decision": "v2 adopted as final boundary detector; filtering approaches (time-based and identity-based) both tested and rejected after systematic evaluation across all 63 sessions"
+}
+
+with open("outputs/day2_evaluation_results.json", "w", encoding="utf-8") as f:
+    json.dump(day2_results, f, indent=2, ensure_ascii=False)
+
+print("Saved.")

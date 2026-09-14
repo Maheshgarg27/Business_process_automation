@@ -1,0 +1,20 @@
+{
+  "labeling_domain_only": {
+    "purity": 28.6,
+    "unique_labels": 20,
+    "note": "single session test, ses_20260630-124826-CHAITANYA0BCF"
+  },
+  "labeling_path_based": {
+    "purity_single_session": 48.5,
+    "purity_avg_63_sessions": 46.8,
+    "purity_min": 26.0,
+    "purity_max": 62.0,
+    "sessions_tested": 63,
+    "sessions_failed": 0
+  },
+  "labeling_path_plus_extracted_text": {
+    "purity_avg_63_sessions": 46.8,
+    "status": "rejected - no improvement over path-based (extracted_text present on only ~4.3% of events)"
+  },
+  "decision": "path-based fingerprinting (app + URL path) adopted as final labeling approach, avg purity 46.8% across 63 sessions; extracted_text addition tested and rejected"
+}

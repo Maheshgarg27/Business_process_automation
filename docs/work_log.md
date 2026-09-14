@@ -202,3 +202,65 @@ the entire merged segment with no clean way to recover the split
 afterward. Given this asymmetry, prioritizing recall (85.1%) over precision
 (36.6%) is the right tradeoff for this pipeline, even though 36.6%
 precision looks weak in isolation.
+
+
+## Day 3: Labeling segments by business process
+
+**Goal:** Once boundaries were detected (Day 2), the next problem was
+assigning each resulting segment a consistent label - the same underlying
+business process should get the same label every time it recurs.
+
+**First approach:** Built a lightweight "fingerprint" per segment based on
+which application was active and, for browser activity, which domain was
+visited. Segments with matching fingerprints were grouped under the same
+label - no ML clustering, just exact-match grouping to start simple.
+
+**Initial validation:** Tested this against Dataset A's ground truth by
+matching each labeled segment to whichever real process-execution overlaps
+it in time, then measuring "purity" - what fraction of segments under a
+given label actually belong to the same real process. Result: only 28.6%
+purity on the first session tested.
+
+**Diagnosis:** Looking at the breakdown, one label was mixing 9 different
+real process codes together. The cause: this internal portal hosts several
+different business processes on the exact same domain, distinguished only
+by the URL path (e.g. a specific route like a resident-tax page vs a
+social-insurance page). Fingerprinting on domain alone couldn't
+distinguish them.
+
+**Fix:** Changed the fingerprint to use the full URL path instead of just
+the domain. Retested on the same session: purity rose to 48.5%. Ran across
+all 63 sessions in Dataset A to get a trustworthy number rather than
+trusting one session: **average purity 46.8%** (range 26.0%-62.0%,
+0 failures).
+
+**Further diagnosis:** 46.8% is a real improvement but still leaves a lot
+of mislabeling. Investigated why: generic applications (notably a plain
+text editor used as a scratchpad) get reused across many unrelated
+processes, so app/URL identity alone carries no signal there - there's
+nothing to fingerprint against.
+
+**Tried one incremental fix:** Added on-screen text snippets (available on
+a minority of events) into the fingerprint, hoping screen content could
+distinguish segments that share the same app/URL. Tested across all 63
+sessions: purity was unchanged (46.8% -> 46.8%). Rejected - this signal
+is present on too small a fraction of events to move the result, and
+occasional additions fragment labels about as often as they help
+distinguish them.
+
+**Considered but deferred:** Running OCR directly on screenshots to get
+broader text coverage than the sparse on-screen-text field already
+provided. Not pursued: screenshots themselves are only captured at
+specific moments (not continuously), the source text is in Japanese which
+adds real setup complexity, and the prior text experiment already showed
+that even where text is available, simple exact-match fingerprinting
+doesn't help - so the bottleneck appears to be the matching approach, not
+the amount of available text. Given the overall 7-day budget for the full
+project, this was judged not worth the investment right now.
+
+**Decision:** Adopting the URL-path-based fingerprint labeling as final
+(46.8% average purity across Dataset A). Next step is to merge consecutive
+segments that share the same label into single, coherent units of work -
+this both cleans up the heavy over-segmentation from Day 2's boundary
+detector and produces a sensible final output - then apply the complete
+pipeline to Dataset B to produce the required segments.jsonl.

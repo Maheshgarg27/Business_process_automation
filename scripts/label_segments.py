@@ -10,21 +10,28 @@ from build_segments import boundaries_to_segments
 def to_dt(ts):
     return datetime.fromisoformat(ts.replace("Z", "+00:00"))
 
-
 def fingerprint_segment(segment_events):
-    """Cheap signature: apps active + browser domains visited during the segment."""
+    """
+    Cheap signature: apps active + browser URL path (not just domain) -
+    this internal portal hosts multiple business processes on the same
+    domain, distinguished only by path, so domain-only was too coarse.
+    """
     apps = set()
-    domains = set()
+    paths = set()
     for e in segment_events:
         aa = e.get("context", {}).get("active_app") or {}
         if aa.get("app_name"):
             apps.add(aa["app_name"])
         tab = e.get("context", {}).get("active_browser_tab") or {}
-        if tab.get("url"):
-            url = tab["url"]
-            domain = url.split("/")[2] if "://" in url else url
-            domains.add(domain)
-    return (frozenset(apps), frozenset(domains))
+        url = tab.get("url")
+        if url:
+            if "://" in url:
+                after_scheme = url.split("://", 1)[1]
+                path_part = after_scheme.split("?")[0]
+            else:
+                path_part = url.split("?")[0]
+            paths.add(path_part)
+    return (frozenset(apps), frozenset(paths))
 
 
 def events_in_range(events, start, end):
@@ -43,8 +50,8 @@ def label_segments(events, segments):
 
         if fp not in fingerprint_to_label:
             apps_str = "+".join(sorted(fp[0])) if fp[0] else "none"
-            domains_str = "+".join(sorted(fp[1])) if fp[1] else ""
-            label = f"{apps_str}" + (f"|{domains_str}" if domains_str else "")
+            paths_str = "+".join(sorted(fp[1]))[:80] if fp[1] else ""
+            label = f"{apps_str}" + (f"|{paths_str}" if paths_str else "")
             fingerprint_to_label[fp] = label
 
         labeled.append({

@@ -264,3 +264,25 @@ segments that share the same label into single, coherent units of work -
 this both cleans up the heavy over-segmentation from Day 2's boundary
 detector and produces a sensible final output - then apply the complete
 pipeline to Dataset B to produce the required segments.jsonl.
+
+
+## Spot-check on Dataset B segments.jsonl
+
+Manually inspected 8 random segments, pulling and translating real
+extracted_text content.
+
+Found a clear, concrete example of the known Word/Notepad limitation:
+two segments both labeled simply "Microsoft Word" contained completely
+different business content when translated - one a contract termination
+procedure ("契約解除手続き"), the other a family allowance regulation
+("家族手当規程"). Since desktop apps have no URL to fingerprint against,
+the current labeling approach cannot distinguish different documents
+opened in the same application.
+
+Also found one path-based label ("payroll-items") whose actual content
+was inventory adjustment, not payroll - suggesting the portal's URL
+routes are not always a fully reliable proxy for business content.
+
+These findings are consistent with Dataset A's purity ceiling (46.8%)
+and confirm the same limitation applies to Dataset B, where no ground
+truth exists to measure it numerically.

@@ -6,6 +6,22 @@ def boundaries_to_segments(boundaries, session_start, session_end):
     points = sorted(set([session_start] + boundaries + [session_end]))
     return [(points[i], points[i+1]) for i in range(len(points) - 1)]
 
+def merge_same_label_segments(labeled_segments):
+    """
+    Collapse consecutive segments that share the same label into one
+    continuous segment - heals over-segmentation from boundary detection
+    noise, since noisy tiny slivers usually share a label with neighbors.
+    """
+    if not labeled_segments:
+        return []
+    merged = [dict(labeled_segments[0])]
+    for seg in labeled_segments[1:]:
+        if seg["label"] == merged[-1]["label"]:
+            merged[-1]["end"] = seg["end"]
+        else:
+            merged.append(dict(seg))
+    return merged
+
 
 if __name__ == "__main__":
     from datetime import datetime

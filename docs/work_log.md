@@ -265,6 +265,25 @@ this both cleans up the heavy over-segmentation from Day 2's boundary
 detector and produces a sensible final output - then apply the complete
 pipeline to Dataset B to produce the required segments.jsonl.
 
+## Merging and applying the pipeline to Dataset B
+
+**Merge step:** Implemented `merge_same_label_segments()` - collapses
+consecutive segments sharing the same label into one continuous segment.
+Tested on the same Dataset A session used throughout: raw segment count
+dropped from 1079 to 109, with segment durations now falling in a
+realistic 20-45 second range instead of millisecond fragments. This
+confirmed the merge step successfully "heals" the heavy over-segmentation
+inherited from boundary detection (Day 2's known 36.6% precision).
+
+**Full pipeline on Dataset B:** Combined the complete pipeline - detect
+boundaries -> construct segments -> label -> merge - and ran it across
+all 15 sessions in Dataset B (the production dataset with no ground
+truth). All 15 sessions processed successfully, 0 failures. Per-session
+segment counts ranged from 40 to 134, totaling **1196 segments** across
+the dataset. Output written to `outputs/segments.jsonl` in the required
+format (session_id, start, end, label - one JSON object per line).
+Per-session counts also saved separately to
+`outputs/segment_counts_per_session.json` for reference.
 
 ## Spot-check on Dataset B segments.jsonl
 

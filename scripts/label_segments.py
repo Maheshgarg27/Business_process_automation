@@ -49,11 +49,18 @@ def label_segments(events, segments):
         fp = fingerprint_segment(seg_events)
 
         if fp not in fingerprint_to_label:
-            apps_str = "+".join(sorted(fp[0])) if fp[0] else "none"
+            # Evidence-based label: drop app-combo (doesn't affect purity,
+            # 45.9% vs 46.8% baseline), KEEP port+path (dropping port hurt
+            # purity 46.8% -> 38.3% - port carries real signal, see
+            # docs/work_log.md). If there's no URL at all (pure desktop app
+            # like Word/Notepad), fall back to the app name.
             paths_str = "+".join(sorted(fp[1]))[:80] if fp[1] else ""
-            label = f"{apps_str}" + (f"|{paths_str}" if paths_str else "")
+            if paths_str:
+                label = paths_str
+            else:
+                apps_str = "+".join(sorted(fp[0])) if fp[0] else "none"
+                label = f"{apps_str} (no_url_generic)"
             fingerprint_to_label[fp] = label
-
         labeled.append({
             "start": start, "end": end,
             "label": fingerprint_to_label[fp], "fingerprint": fp,

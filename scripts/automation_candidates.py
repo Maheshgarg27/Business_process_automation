@@ -3,23 +3,10 @@ import re
 import pandas as pd
 
 
-def extract_route_only(fingerprint_label):
-    """
-    For automation-priority purposes, group by the underlying business
-    route only (ignoring port and app-combo) - the automation decision is
-    about the TASK TYPE, not which server instance handled it. Note: this
-    is a coarser grouping than the labeling used for accuracy validation -
-    here we deliberately combine across ports since we're counting total
-    business volume per process type, not trying to preserve every
-    distinction that mattered for purity.
-    """
-    if "|" in fingerprint_label:
-        url_part = fingerprint_label.split("|", 1)[1]
-        m = re.search(r"#/([a-zA-Z0-9\-]+)", url_part)
-        if m:
-            return m.group(1)
-        return None
-    return None
+def extract_route_only(label):
+    """Labels are already clean - just search the label directly for the URL route."""
+    m = re.search(r"#/([a-zA-Z0-9\-]+)", label)
+    return m.group(1) if m else None
 
 
 if __name__ == "__main__":

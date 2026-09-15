@@ -1,22 +1,52 @@
 import json
 import re
+from pathlib import Path
+from datetime import datetime
 import pandas as pd
 
 
+def to_dt(ts):
+    return datetime.fromisoformat(ts.replace("Z", "+00:00"))
+
+
 def extract_route_only(label):
-    if "|" in label:
-        url = label.split("|", 1)[1]
-        m = re.search(r"#/([a-zA-Z0-9\-]+)", url)
-        return m.group(1) if m else None
-    return None
+    m = re.search(r"#/([a-zA-Z0-9\-]+)", label)
+    return m.group(1) if m else None
 
 
-def apps_in_label(label):
-    if "|" in label:
-        app_part = label.split("|", 1)[0]
-    else:
-        app_part = label.split(" (")[0]
-    return set(app_part.split("+"))
+_session_events_cache = {}
+
+
+def get_session_events(session_id, dataset_dir="dataset_b"):
+    """Load and cache raw events for a session, so repeated lookups are fast."""
+    if session_id not in _session_events_cache:
+        events = []
+        session_dir = Path(dataset_dir) / session_id
+        for chunk_dir in sorted(session_dir.glob("chunk_*")):
+            ef = chunk_dir / "events.jsonl"
+            if not ef.exists():
+                continue
+            with open(ef, encoding="utf-8") as f:
+                for line in f:
+                    events.append(json.loads(line))
+        events.sort(key=lambda e: e["timestamp_iso"])
+        _session_events_cache[session_id] = events
+    return _session_events_cache[session_id]
+
+
+def apps_in_range(session_id, start, end):
+    """Apps active during a segment's time range - read from raw events,
+    since the final segment label no longer carries app-combo info
+    (intentionally dropped for label consistency)."""
+    events = get_session_events(session_id)
+    apps = set()
+    for e in events:
+        ets = to_dt(e["timestamp_iso"])
+        if start <= ets < end:
+            aa = e.get("context", {}).get("active_app") or {}
+            if aa.get("app_name"):
+                apps.add(aa["app_name"])
+    return apps
 
 
 if __name__ == "__main__":
@@ -32,10 +62,8 @@ if __name__ == "__main__":
     df["duration_sec"] = (df["end"] - df["start"]).dt.total_seconds()
     df = df[df["duration_sec"] >= 1.0].copy()
     df["route"] = df["label"].apply(extract_route_only)
-    df["apps"] = df["label"].apply(apps_in_label)
     df_routes = df[df["route"].notna()].copy()
 
-    # base stats: frequency, time, sessions
     summary = df_routes.groupby("route").agg(
         frequency=("route", "count"),
         total_time_sec=("duration_sec", "sum"),
@@ -44,13 +72,12 @@ if __name__ == "__main__":
     ).reset_index()
     summary["total_time_min"] = summary["total_time_sec"] / 60
 
-    # complexity stats: distinct apps, duration std
     complexity_rows = []
     for route in summary["route"]:
         sub = df_routes[df_routes["route"] == route]
         all_apps = set()
-        for a in sub["apps"]:
-            all_apps |= a
+        for _, row in sub.iterrows():
+            all_apps |= apps_in_range(row["session_id"], row["start"], row["end"])
         complexity_rows.append({
             "route": route,
             "num_distinct_apps": len(all_apps),

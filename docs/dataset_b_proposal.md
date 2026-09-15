@@ -172,3 +172,9 @@ cases live, submitting each one successfully. In a real deployment, the
 recommended workflow would be: run in dry-run mode, have a human review
 the generated notes/actions, then re-run in live mode only after approval
 - rather than defaulting to full autonomous execution.
+
+**Current limitation:** The prototype uses a command-line flag (--live) 
+to toggle between dry-run and live mode, which is appropriate for a 
+technical demo but not for actual HR staff usage. A production version 
+would need a simple UI (e.g., two buttons: "Preview" and "Submit") so 
+non-technical users never need to touch code or a terminal.

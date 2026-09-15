@@ -16,3 +16,4 @@ Thumbs.db
 .vscode/
 
 .ipynb_checkpoints/
+outputs/automation_log.txt

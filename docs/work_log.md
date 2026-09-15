@@ -354,3 +354,13 @@ the incidental app-combination prefix (negligible effect on purity,
 45.9% vs 46.8%) but keep the port number in the label. Rejected dropping
 port, since it measurably hurt accuracy. This corrected label will be
 used to re-aggregate the Dataset B process-frequency analysis for Step 2.
+
+
+## Day 4 : checked for API evidence before choosing implementation approach
+
+Before committing to UI-automation, checked DOM attributes on onboarding
+events for signs of a callable API (action/method attributes). Found
+none across 367 events - inconclusive given this is a JS SPA, but
+informed the decision to build UI-level automation rather than assume
+an API. See dataset_b_proposal.md for the full reasoning. Saved raw
+check results to outputs/api_evidence_check.json.

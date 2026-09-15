@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Onboarding Portal (Mock)</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; }
+  table { border-collapse: collapse; width: 100%; }
+  td, th { border: 1px solid #ccc; padding: 8px; text-align: left; }
+  tr.processed { background: #e8f5e9; }
+  .input { width: 300px; padding: 6px; margin-top: 10px; }
+  .btn { padding: 6px 16px; margin-top: 10px; cursor: pointer; }
+  .btn.success { background: #4caf50; color: white; border: none; }
+  #status { margin-top: 15px; font-weight: bold; }
+</style>
+</head>
+<body>
+<h2>新入社員確認一覧 (Onboarding Cases)</h2>
+<table id="case-table">
+  <tr><th>Case ID</th><th>Employee Data</th></tr>
+  <tr data-case="1"><td class="case-data">EMP-0231 / Tanaka Yuki / Dept: Sales</td></tr>
+  <tr data-case="2"><td class="case-data">EMP-0232 / Sato Kenji / Dept: HR</td></tr>
+  <tr data-case="3"><td class="case-data">EMP-0233 / Ito Mei / Dept: Finance</td></tr>
+  <tr data-case="4"><td class="case-data">EMP-0234 / Suzuki Ren / Dept: IT</td></tr>
+</table>
+
+<textarea id="ob-note" class="input" placeholder="照合結果・特記事項を入力してください…"></textarea><br>
+<button id="btn-ob-ok" class="btn success" onclick="submitNote()">確認完了</button>
+<div id="status"></div>
+
+<script>
+let currentRow = null;
+
+document.querySelectorAll('#case-table tr[data-case]').forEach(row => {
+  row.querySelector('td').addEventListener('click', () => {
+    currentRow = row;
+    document.querySelectorAll('#case-table tr').forEach(r => r.style.background = '');
+    row.style.background = '#fff3cd';
+  });
+});
+
+function submitNote() {
+  if (!currentRow) {
+    document.getElementById('status').innerText = 'Select a row first.';
+    return;
+  }
+  currentRow.classList.add('processed');
+  document.getElementById('status').innerText =
+    'Submitted note for ' + currentRow.dataset.case + ': ' + document.getElementById('ob-note').value;
+  document.getElementById('ob-note').value = '';
+  currentRow = null;
+}
+</script>
+</body>
+</html>

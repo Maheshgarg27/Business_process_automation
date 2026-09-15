@@ -23,6 +23,19 @@ operators - itself a risk factor to weigh before automating, since a
 process with many valid paths is harder to automate reliably than one
 with few.
 
+**Headcount proxy (updated, more complete):** `num_sessions` is used as a
+proxy for headcount, since Dataset B has no operator/employee-ID field.
+This proxy can be wrong in BOTH directions:
+- Overcounting: if the same person creates multiple sessions (e.g.
+  logging back in after a break), each session is counted as a separate
+  person.
+- Undercounting: if multiple people share one session (e.g. a shift
+  change mid-recording, or two people using the same machine), they are
+  counted as just one person.
+Without an actual operator/employee field, session count is the best
+available signal, but should be treated as an approximate indicator of
+reach, not a precise headcount.
+
 ## Priority 1: payroll-items
 - Impact: highest by far - 48.7 min total, 218 occurrences, 14/15 sessions
 - Feasibility risk: touches the most distinct applications (10) of any
@@ -178,3 +191,13 @@ to toggle between dry-run and live mode, which is appropriate for a
 technical demo but not for actual HR staff usage. A production version 
 would need a simple UI (e.g., two buttons: "Preview" and "Submit") so 
 non-technical users never need to touch code or a terminal.
+
+##  Audit logging with masked identifiers
+
+Added logging (outputs/automation_log.txt) that records every processed
+case with a one-way hashed identifier (SHA-256, truncated) instead of the
+real case/employee ID - giving an auditable trail of what the automation
+did and when, without exposing PII in a log file that could itself become
+a data-handling liability. Verified both dry-run and live runs log
+correctly, with only masked IDs appearing in the file - never real
+identifiers.

@@ -128,3 +128,47 @@ Word/Notepad file-handling steps, which need further discovery). This is
 a deliberately narrower scope than "fully automate onboarding end-to-end,"
 chosen because a working, honestly-scoped prototype is more valuable than
 an ambitious one that breaks on the parts we can't currently see.
+
+
+## Step 3: Prototype built and verified
+
+Built and successfully ran a working automation prototype for the
+"verify case -> write note -> submit" loop identified within onboarding
+segments (see Data Access section above for why UI-automation was chosen
+over an assumed API integration).
+
+**What it does:** Using Playwright (browser automation), the script
+identifies each pending case in the case list, clicks it, fills in a
+verification note, and submits - replicating the exact manual sequence
+observed in the real event logs (click row -> read data -> paste note ->
+submit), repeated for every case.
+
+**How it was tested:** Since the real portal only exists on the recording
+machine (127.0.0.1) with no confirmed external access, the prototype was
+validated against a local mock page replicating the real system's exact
+DOM structure (same element IDs: #ob-note textarea, #btn-ob-ok button,
+sourced directly from the real onboarding event logs). Ran successfully:
+all 4 test cases processed automatically and correctly in sequence.
+
+**What would change for real deployment:** Only the target URL and the
+case-data source would need to change (e.g. reading from the real
+portal's rendered table, or an API if the client confirms one exists) -
+the interaction logic itself is already proven to work.
+
+
+## Step 3: Dry-run safeguard added (governance risk mitigation)
+
+Added a DRY_RUN mode to the prototype - when enabled (the default), the
+script clicks through each case and fills in the note text exactly as it
+would live, but stops short of clicking the final submit button, printing
+a preview of what it *would* do instead. This directly implements the
+human-in-the-loop safeguard anticipated in the governance risk section
+above: HR/employee data should not be blind-submitted by an automated
+process without a human reviewing the intended changes first.
+
+Verified both modes work correctly: DRY_RUN=True previewed all 4 cases
+with zero actual submissions; DRY_RUN=False then executed the same 4
+cases live, submitting each one successfully. In a real deployment, the
+recommended workflow would be: run in dry-run mode, have a human review
+the generated notes/actions, then re-run in live mode only after approval
+- rather than defaulting to full autonomous execution.

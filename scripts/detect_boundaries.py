@@ -107,17 +107,17 @@ def detect_boundaries_v4(events):
     return filter_self_transitions(events)
 
 # ---- Run baseline on one session ----
+if __name__ == "__main__":
+    session_dir = "dataset_a/ses_20260630-124826-CHAITANYA0BCF"# pick any session you have
 
-session_dir = "dataset_a/ses_20260630-124826-CHAITANYA0BCF"# pick any session you have
+    events = load_session_events(session_dir)
+    predicted = detect_boundaries_v2(events)
 
-events = load_session_events(session_dir)
-predicted = detect_boundaries_v2(events)
+    with open(Path(session_dir) / "gt_manifest.json", encoding="utf-8") as f:
+        gt_manifest = json.load(f)
 
-with open(Path(session_dir) / "gt_manifest.json", encoding="utf-8") as f:
-    gt_manifest = json.load(f)
+    print(f"Events loaded: {len(events)}")
+    print(f"Predicted boundaries (app_switch + browser_navigation): {len(predicted)}")
 
-print(f"Events loaded: {len(events)}")
-print(f"Predicted boundaries (app_switch + browser_navigation): {len(predicted)}")
-
-score = evaluate(predicted, gt_manifest)  # evaluate() extracts real boundaries itself
-print(f"\nBoundary detection score (v2): {score:.1f}%")
+    score = evaluate(predicted, gt_manifest)  # evaluate() extracts real boundaries itself
+    print(f"\nBoundary detection score (v2): {score:.1f}%")

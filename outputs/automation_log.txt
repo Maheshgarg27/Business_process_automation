@@ -1,0 +1,36 @@
+2026-09-15 12:14:37,817  INFO  === Run started - mode: DRY_RUN ===
+2026-09-15 12:14:40,953  INFO  Found 4 cases to process
+2026-09-15 12:14:40,975  INFO  Processing case 6b86b273
+2026-09-15 12:14:41,775  INFO  Dry-run complete for case 6b86b273 - no submission made
+2026-09-15 12:14:41,781  INFO  Processing case d4735e3a
+2026-09-15 12:14:42,342  INFO  Dry-run complete for case d4735e3a - no submission made
+2026-09-15 12:14:42,348  INFO  Processing case 4e074085
+2026-09-15 12:14:42,926  INFO  Dry-run complete for case 4e074085 - no submission made
+2026-09-15 12:14:42,934  INFO  Processing case 4b227777
+2026-09-15 12:14:43,497  INFO  Dry-run complete for case 4b227777 - no submission made
+2026-09-15 12:14:43,498  INFO  === Run finished ===
+
+2026-09-15 12:14:52,663  INFO  === Run started - mode: DRY_RUN ===
+2026-09-15 12:14:54,010  INFO  Found 4 cases to process
+2026-09-15 12:14:54,047  INFO  Processing case 6b86b273
+2026-09-15 12:14:54,784  INFO  Dry-run complete for case 6b86b273 - no submission made
+2026-09-15 12:14:54,789  INFO  Processing case d4735e3a
+2026-09-15 12:14:55,346  INFO  Dry-run complete for case d4735e3a - no submission made
+2026-09-15 12:14:55,352  INFO  Processing case 4e074085
+2026-09-15 12:14:55,909  INFO  Dry-run complete for case 4e074085 - no submission made
+2026-09-15 12:14:55,914  INFO  Processing case 4b227777
+2026-09-15 12:14:56,458  INFO  Dry-run complete for case 4b227777 - no submission made
+2026-09-15 12:14:56,458  INFO  === Run finished ===
+
+2026-09-15 12:18:13,061  INFO  === Run started - mode: LIVE ===
+2026-09-15 12:18:14,332  INFO  Found 4 cases to process
+2026-09-15 12:18:14,359  INFO  Processing case 6b86b273
+2026-09-15 12:18:15,384  INFO  Completed case 6b86b273 - submitted successfully
+2026-09-15 12:18:15,390  INFO  Processing case d4735e3a
+2026-09-15 12:18:16,267  INFO  Completed case d4735e3a - submitted successfully
+2026-09-15 12:18:16,273  INFO  Processing case 4e074085
+2026-09-15 12:18:17,131  INFO  Completed case 4e074085 - submitted successfully
+2026-09-15 12:18:17,138  INFO  Processing case 4b227777
+2026-09-15 12:18:18,027  INFO  Completed case 4b227777 - submitted successfully
+2026-09-15 12:18:18,027  INFO  === Run finished ===
+

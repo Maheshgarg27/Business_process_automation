@@ -63,7 +63,7 @@ reach, not a precise headcount.
 - Reasoning: Meaningful but secondary - lower volume than the above three.
 
 ## Priority 5: resident-tax
-- Impact: 11.0 min total, 37 occurrences, 8/15 sessions
+- Impact: 11.0 min total, 34 occurrences, 8/15 sessions
 - Reasoning: Lowest volume of the real business processes - worth
   automating eventually, but not a near-term priority.
 
@@ -195,3 +195,22 @@ did and when, without exposing PII in a log file that could itself become
 a data-handling liability. Verified both dry-run and live runs log
 correctly, with only masked IDs appearing in the file - never real
 identifiers.
+
+## Coverage limitation: generic-app segments excluded from process ranking
+
+The 6 URL-identifiable business routes above account for only about half
+of all segments. The remaining ~506 of 1016 segments (roughly 50%) have
+no identifiable URL route - these are generic desktop-app segments
+(dominated by "Microsoft Word", 268 segments alone, plus Notepad, Excel,
+WindowsTerminal, and bare portal root-pages with no specific route).
+
+These segments are NOT broken down by business process in the priority
+table above, because our labeling approach cannot distinguish what
+business process a generic desktop app segment belongs to (confirmed by
+the spot-check finding two "Microsoft Word" segments containing
+completely unrelated content). This means the current automation-priority
+analysis, while directionally useful, is built on roughly half of the
+total recorded activity - a meaningful blind spot that a deeper
+investigation (e.g. OCR/content-based labeling as discussed above) would
+need to address before treating this as a complete picture of all work
+performed.

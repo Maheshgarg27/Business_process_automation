@@ -107,9 +107,14 @@ def process_case(page, case, dry_run):
         return {"case_id": case["case_id"], "status": "error", "error": str(e)}
 
 
-def run(cases_path, dry_run, portal_url):
-    with open(cases_path, encoding="utf-8") as f:
-        cases = json.load(f)
+def run(cases_path_or_data_dir, dry_run, portal_url, extract_from_logs=False):
+    if extract_from_logs:
+        from extract_real_payroll_cases import extract_cases
+        cases = extract_cases(cases_path_or_data_dir)
+        print(f"Extracted {len(cases)} real cases directly from logs")
+    else:
+        with open(cases_path_or_data_dir, encoding="utf-8") as f:
+            cases = json.load(f)
 
     results = []
     with sync_playwright() as p:
@@ -131,8 +136,17 @@ def run(cases_path, dry_run, portal_url):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--cases", default="prototype/payroll_cases.json")
+    parser.add_argument("--cases", default="prototype/payroll_cases.json",
+                         help="Path to a cases JSON file (ignored if --from-logs is used)")
+    parser.add_argument("--from-logs", metavar="DATA_DIR", default=None,
+                         help="Skip the JSON file entirely and extract real cases "
+                              "directly from raw event logs in this directory "
+                              "(e.g. --from-logs dataset_b)")
     parser.add_argument("--live", dest="dry_run", action="store_false", default=True)
     parser.add_argument("--url", default="http://127.0.0.1:8000/mock_payroll_portal.html")
     args = parser.parse_args()
-    run(args.cases, args.dry_run, args.url)
+
+    if args.from_logs:
+        run(args.from_logs, args.dry_run, args.url, extract_from_logs=True)
+    else:
+        run(args.cases, args.dry_run, args.url, extract_from_logs=False)

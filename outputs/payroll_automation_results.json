@@ -1,37 +1,727 @@
 [
   {
-    "case_id": "P6-07010448-002",
+    "case_id": "AUTO-dc091dba84",
     "status": "submitted",
-    "note_used": "請求書照合完了。INV-2026-7345　金額：455,128円。差異なし承認。"
+    "note_used": "請求書照合完了。INV-2026-7345　金額：455,128円。差異あり要確認。"
   },
   {
-    "case_id": "P8-07089737-008",
+    "case_id": "AUTO-69b0f2d665",
     "status": "submitted",
-    "note_used": "予算差異分析完了。物流部　予算 6,000,000 / 実績 6,802,151（差異 13.4%）。是正対応方針を記録。"
+    "note_used": "請求書照合完了。INV-2026-7350　金額：1,993,825円。差異あり要確認。"
   },
   {
-    "case_id": "P10-07080388-001",
+    "case_id": "AUTO-8c3628d287",
     "status": "submitted",
-    "note_used": "発注管理処理。年間契約：事務用品　数量 265　合計 2,619,790円　通常。発注書確認・登録完了。"
+    "note_used": "発注管理処理。年間契約：サーバー保守部品　数量 425　合計 19,877,675円　通常。発注書確認・登録完了。"
   },
   {
-    "case_id": "P3-07101496-002",
+    "case_id": "AUTO-920503b4b2",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：事務用品　数量 437　合計 10,640,513円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-eff72faa66",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7352　金額：393,384円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-c8ad5696ee",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7353　金額：437,452円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-00a5f43b6d",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7355　金額：1,685,384円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-812da27337",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：事務用品　数量 281　合計 293,083円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-fe8d3b6930",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：サーバー保守部品　数量 55　合計 2,057,110円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-8ad74e4a52",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：梱包材料　数量 145　合計 161,820円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-f0745af6dd",
+    "status": "submitted",
+    "note_used": "発注管理処理。緊急発注：測定機器　数量 40　合計 149,920円　緊急。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-ff86969a42",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W2　品名：電源モジュールB　調整数：+155個。"
+  },
+  {
+    "case_id": "AUTO-826b26c80e",
+    "status": "submitted",
+    "note_used": "入社照合完了。採用区分：新卒家族持。照合項目すべて確認済み。"
+  },
+  {
+    "case_id": "AUTO-5aff4b565d",
+    "status": "submitted",
+    "note_used": "入社照合完了。採用区分：新卒。照合項目すべて確認済み。"
+  },
+  {
+    "case_id": "AUTO-b4d0665727",
     "status": "submitted",
     "note_used": "入社照合完了。採用区分：中途。照合項目すべて確認済み。"
   },
   {
-    "case_id": "P2-07101496-001",
+    "case_id": "AUTO-15453b4475",
+    "status": "submitted",
+    "note_used": "予算差異分析完了。物流部　予算 6,000,000 / 実績 6,056,624（差異 0.9%）。是正対応方針を記録。"
+  },
+  {
+    "case_id": "AUTO-392f88977b",
+    "status": "submitted",
+    "note_used": "予算差異分析完了。開発部　予算 8,500,000 / 実績 8,128,818（差異 -4.4%）。是正対応方針を記録。"
+  },
+  {
+    "case_id": "AUTO-82e36b91c0",
+    "status": "submitted",
+    "note_used": "予算差異分析完了。管理部　予算 4,200,000 / 実績 4,331,832（差異 3.1%）。是正対応方針を記録。"
+  },
+  {
+    "case_id": "AUTO-b44e8a6d02",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：サーバー保守部品　数量 165　合計 7,114,800円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-901d1354a0",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：工場設備部品　数量 416　合計 518,336円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-4c3ec31db6",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：事務用品　数量 480　合計 22,977,120円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-661f357390",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：接待交際費　金額：83,652円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-e12a6fa936",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：12,312円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-aa48b72916",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：包装資材　数量 441　合計 21,721,896円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-fc4f52e86c",
+    "status": "submitted",
+    "note_used": "発注管理処理。定期発注：サーバー保守部品　数量 483　合計 8,937,432円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-eff819bf86",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：事務用品　数量 10　合計 96,580円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-50c1b2503d",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：21,542円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-cf3810f747",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：60,701円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-f6f964982e",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：21,956円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-7c4e146e19",
+    "status": "submitted",
+    "note_used": "入社照合完了。採用区分：契約社員。照合項目すべて確認済み。"
+  },
+  {
+    "case_id": "AUTO-3b2d72f15e",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：サーバー保守部品　数量 410　合計 8,103,650円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-1cbd0993f8",
+    "status": "submitted",
+    "note_used": "発注管理処理。緊急発注：電子基板ユニット　数量 462　合計 8,064,210円　緊急。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-70bdb7b797",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W1　品名：制御基板ユニットA　調整数：+41個。"
+  },
+  {
+    "case_id": "AUTO-49568abdb7",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+198個。"
+  },
+  {
+    "case_id": "AUTO-ae8bc2fae2",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+16個。"
+  },
+  {
+    "case_id": "AUTO-692b4b5c1e",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+191個。"
+  },
+  {
+    "case_id": "AUTO-aee408f8b2",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W5　品名：光学レンズE　調整数：+178個。"
+  },
+  {
+    "case_id": "AUTO-c3f5db9907",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：8,322円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-318054cbcc",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：38,450円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-0b55eb7951",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：29,304円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-3486b3fde9",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：19,293円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-4bbffee3e0",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：接待交際費　金額：60,936円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-6da4c35981",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：接待交際費　金額：129,596円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-ffacf413b2",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：4,354円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-c18700f1c2",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：6,244円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-8ffaca002e",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：接待交際費　金額：77,224円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-7f34e8b095",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：36,865円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-d3121c5416",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：29,289円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-9bb3e78750",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：15,570円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-b7ee3b37db",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：11,116円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-6914978205",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7008　金額：408,812円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-3b48a3f0b8",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7011　金額：3,088,562円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-ca2b6082d8",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：19,396円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-dea697d0d8",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-23。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-e7381e8f60",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+99個。"
+  },
+  {
+    "case_id": "AUTO-6097446a3a",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7299　金額：530,056円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-ac0d9a65d4",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7300　金額：1,177,577円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-010e03a314",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7301　金額：749,769円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-8ad3f0def5",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：特別休暇（慶弔）。取得日：2026-07-24。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-2635d6ed3b",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：21,043円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-3295415bb0",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：36,925円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-2520297e01",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：35,614円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-ac0b71ab34",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：電子基板ユニット　数量 158　合計 2,677,152円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-f815dd870e",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：梱包材料　数量 264　合計 11,944,416円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-589283449e",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：測定機器　数量 260　合計 5,903,040円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-9f8ccca7f4",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：48,073円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-cc8ac288cf",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：18,420円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-73f20e2de4",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：特別休暇（慶弔）。取得日：2026-07-11。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-87c4c58861",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：代休申請。取得日：2026-07-13。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-994466a382",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：49,008円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-9768f5fdad",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：17,029円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-9d3204bbbc",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-11。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-7f219b6d01",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：年次有給休暇。取得日：2026-07-13。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-87016b4844",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：年次有給休暇。取得日：2026-07-17。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-61f9245d84",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7247　金額：3,147,314円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-067767ea9b",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7250　金額：553,309円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-98230b9ccd",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7251　金額：741,557円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-4f474e9d69",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-18。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-19b6172445",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：年次有給休暇。取得日：2026-07-21。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-5fdf5b6629",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7257　金額：507,672円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-c06b30fe0e",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7067　金額：3,164,947円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-bf62358660",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7070　金額：568,642円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-ef6dedfc5e",
     "status": "submitted",
     "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-14。問題なし承認。"
   },
   {
-    "case_id": "P1-07089737-001",
+    "case_id": "AUTO-ab468a51e7",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：フレックス変更申請。取得日：2026-07-22。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-f709b88ebc",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：特別休暇（慶弔）。取得日：2026-07-14。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-fb00095379",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：フレックス変更申請。取得日：2026-07-21。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-cf41814d8a",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7071　金額：1,799,084円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-7dc402d489",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7074　金額：400,826円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-5c0e93bd9b",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7506　金額：3,037,210円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-d44d656e0e",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7507　金額：547,164円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-bed32a72d4",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7509　金額：565,013円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-d3d21c28ab",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：特別休暇（慶弔）。取得日：2026-07-12。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-1486d20531",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：フレックス変更申請。取得日：2026-07-12。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-fa889377de",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：代休申請。取得日：2026-07-16。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-916b924ff8",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：特別休暇（慶弔）。取得日：2026-07-07。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-cade9d4777",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：35,241円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-8d1a24f46b",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+159個。"
+  },
+  {
+    "case_id": "AUTO-d7905849e8",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：31,411円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-275608aeb7",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：7,632円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-b088d024e7",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：79,409円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-07f3e08be4",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：24,613円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-2ea0d6c1aa",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：事務用品　数量 265　合計 2,619,790円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-2c83980091",
+    "status": "submitted",
+    "note_used": "発注管理処理。定期発注：梱包材料　数量 229　合計 2,804,792円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-9da426be0f",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W6　品名：モーターユニットF　調整数：+42個。"
+  },
+  {
+    "case_id": "AUTO-2cf647f576",
+    "status": "submitted",
+    "note_used": "発注管理処理。年間契約：工場設備部品　数量 60　合計 2,124,000円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-4c4cf0baf4",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：電子基板ユニット　数量 63　合計 2,622,060円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-0fda15f268",
+    "status": "submitted",
+    "note_used": "発注管理処理。緊急発注：梱包材料　数量 274　合計 1,003,114円　緊急。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-0fe87d8ae7",
+    "status": "submitted",
+    "note_used": "発注管理処理。スポット発注：包装資材　数量 348　合計 512,604円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-99355590c5",
+    "status": "submitted",
+    "note_used": "発注管理処理。定期発注：電子基板ユニット　数量 102　合計 4,109,886円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-bc1beae07a",
+    "status": "submitted",
+    "note_used": "発注管理処理。定期発注：電子基板ユニット　数量 381　合計 7,557,897円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-e2bc4075da",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W4　品名：筐体パネルD　調整数：+41個。"
+  },
+  {
+    "case_id": "AUTO-5a3b672d19",
+    "status": "submitted",
+    "note_used": "発注管理処理。定期発注：工場設備部品　数量 460　合計 5,984,140円　通常。発注書確認・登録完了。"
+  },
+  {
+    "case_id": "AUTO-e9f0b876e2",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7999　金額：2,691,742円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-e1747a80fe",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-8001　金額：784,303円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-7c783b7b9c",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-8002　金額：363,706円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-4d7d75a92f",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：25,213円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-43e36e3f14",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：24,395円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-be11ad5007",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：8,691円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-6071838420",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-8008　金額：588,515円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-fe3bacb93f",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-8009　金額：1,876,206円。差異なし承認。"
+  },
+  {
+    "case_id": "AUTO-f32c2a19ab",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：33,374円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-20b8f8afd6",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：接待交際費　金額：118,189円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-4208e4bda2",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：55,571円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-c6fb4e7fe6",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：10,712円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-7c4ef46078",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W1　品名：制御基板ユニットA　調整数：+185個。"
+  },
+  {
+    "case_id": "AUTO-b5f1eaede1",
     "status": "submitted",
     "note_used": "経費精算確認済み。費目：出張旅費　金額：50,639円。規程内であることを確認した。"
   },
   {
-    "case_id": "P11-07054374-001",
+    "case_id": "AUTO-7b08e790ee",
     "status": "submitted",
-    "note_used": "在庫調整登録。品番：BATCH-W2　品名：電源モジュールB　調整数：+155個。"
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：23,837円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-38717f5713",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W1　品名：制御基板ユニットA　調整数：+150個。"
+  },
+  {
+    "case_id": "AUTO-f5125a7d93",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W3　品名：センサーケーブルC　調整数：+64個。"
+  },
+  {
+    "case_id": "AUTO-8538e18786",
+    "status": "submitted",
+    "note_used": "予算差異分析完了。営業部　予算 12,000,000 / 実績 13,604,303（差異 13.4%）。是正対応方針を記録。"
+  },
+  {
+    "case_id": "AUTO-1d2f2c52d3",
+    "status": "submitted",
+    "note_used": "予算差異分析完了。物流部　予算 6,000,000 / 実績 5,138,584（差異 -14.4%）。是正対応方針を記録。"
+  },
+  {
+    "case_id": "AUTO-43324a2d5e",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：年次有給休暇。取得日：2026-07-15。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-bbd7fb995a",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：フレックス変更申請。取得日：2026-07-07。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-9792ee5423",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-08。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-ce3b746b0f",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W4　品名：筐体パネルD　調整数：+176個。"
+  },
+  {
+    "case_id": "AUTO-8aae6277a8",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：研修費　金額：51,533円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-95d7af71c1",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：交通費精算　金額：17,019円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-d415f470ab",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：5,638円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-fd46f1d5f4",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：出張旅費　金額：26,271円。規程内であることを確認した。"
+  },
+  {
+    "case_id": "AUTO-4317f35503",
+    "status": "submitted",
+    "note_used": "在庫調整登録。品番：BATCH-W3　品名：センサーケーブルC　調整数：+86個。"
+  },
+  {
+    "case_id": "AUTO-d46b7d39c8",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：代休申請。取得日：2026-07-07。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-d40b9c73c7",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：半日有給申請。取得日：2026-07-15。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-fa866291e4",
+    "status": "submitted",
+    "note_used": "勤怠申請確認。種別：年次有給休暇。取得日：2026-07-12。問題なし承認。"
+  },
+  {
+    "case_id": "AUTO-b80ce0450a",
+    "status": "submitted",
+    "note_used": "請求書照合完了。INV-2026-7970　金額：1,692,924円。差異あり要確認。"
+  },
+  {
+    "case_id": "AUTO-8c4af18387",
+    "status": "submitted",
+    "note_used": "経費精算確認済み。費目：消耗品費　金額：10,830円。規程内であることを確認した。"
   }
 ]

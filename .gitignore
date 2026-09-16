@@ -17,3 +17,7 @@ Thumbs.db
 
 .ipynb_checkpoints/
 outputs/automation_log.txt
+
+~$*.xlsx
+prototype/_mock_portal.html
+outputs/payroll_automation_log.txt

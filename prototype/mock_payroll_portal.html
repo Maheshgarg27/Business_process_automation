@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Mock Payroll Portal</title></head>
+<body>
+  <h2>Payroll Item</h2>
+  <textarea id="pi-note" placeholder="処理内容・確認コメントを入力してください…"></textarea>
+  <button id="btn-pi-ok">承認</button>
+  <script>
+    document.getElementById("btn-pi-ok").addEventListener("click", () => {
+      alert("Submitted: " + document.getElementById("pi-note").value);
+    });
+  </script>
+</body>
+</html>

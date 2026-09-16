@@ -1,0 +1,50 @@
+[
+  {
+    "case_id": "P6-07010448-002",
+    "category_type": "invoice_approval",
+    "invoice_id": "INV-2026-7345",
+    "amount": 455128,
+    "has_discrepancy": false
+  },
+  {
+    "case_id": "P8-07089737-008",
+    "category_type": "budget_variance",
+    "department": "\u7269\u6d41\u90e8",
+    "budget": 6000000,
+    "actual": 6802151,
+    "variance_pct": 13.4
+  },
+  {
+    "case_id": "P10-07080388-001",
+    "category_type": "order_management",
+    "contract_type": "\u5e74\u9593\u5951\u7d04",
+    "item": "\u4e8b\u52d9\u7528\u54c1",
+    "quantity": 265,
+    "total": 2619790,
+    "urgency": "\u901a\u5e38"
+  },
+  {
+    "case_id": "P3-07101496-002",
+    "category_type": "onboarding_match",
+    "hire_type": "\u4e2d\u9014"
+  },
+  {
+    "case_id": "P2-07101496-001",
+    "category_type": "leave_request",
+    "leave_type": "\u534a\u65e5\u6709\u7d66\u7533\u8acb",
+    "date": "2026-07-14"
+  },
+  {
+    "case_id": "P1-07089737-001",
+    "category_type": "expense_reimbursement",
+    "expense_category": "\u51fa\u5f35\u65c5\u8cbb",
+    "amount": 50639
+  },
+  {
+    "case_id": "P11-07054374-001",
+    "category_type": "inventory_adjustment",
+    "item_code": "BATCH-W2",
+    "item_name": "\u96fb\u6e90\u30e2\u30b8\u30e5\u30fc\u30ebB",
+    "amount": 155
+  }
+]

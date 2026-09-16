@@ -364,3 +364,91 @@ none across 367 events - inconclusive given this is a JS SPA, but
 informed the decision to build UI-level automation rather than assume
 an API. See dataset_b_proposal.md for the full reasoning. Saved raw
 check results to outputs/api_evidence_check.json.
+
+## Day 4 (continued): Step 1/Step 2 consistency fix
+
+Discovered `segments.jsonl` (the actual deliverable) still used the raw,
+fragmented fingerprint labels (app-combo + full path) from before the
+Step 2 label-cleanup logic was built — meaning the same real process
+(e.g. onboarding) could appear under several different labels depending
+on which app happened to be focused at that moment. Fixed by applying
+the cleaned `extract_process_label` logic directly into segment
+generation, dropping app-combo noise while keeping the URL route (and
+port, validated via purity check as carrying real signal). Regenerated
+and overwrote `outputs/segments.jsonl` with corrected, consistent
+labels. Verified: same route now always produces the same label
+regardless of concurrent app usage.
+
+Also revisited `dataset_b_proposal.md` to fix related issues found
+during review:
+- Corrected stale segment/occurrence counts after the relabeling
+- Removed a duplicate headcount-proxy paragraph
+- Expanded the headcount-proxy limitation to explicitly cover both
+  over- and under-counting risk (session count as a proxy for people
+  involved, since Dataset B has no operator field)
+- Disclosed that ~50% of segments (generic desktop apps like
+  Notepad/Word with no URL) are excluded from the process-priority
+  ranking, since they can't be reliably attributed to a specific
+  business route
+
+## Day 4 (continued): Step 3 prototype build
+
+Built the working automation prototype for the `onboarding` process
+(selected in Step 2 as the safer first build vs. higher-impact but
+riskier `payroll-items`):
+
+- `prototype/mock_onboarding_portal.html` — local replica of the real
+  portal's structure (same element IDs found in real logs: `#ob-note`,
+  `#btn-ob-ok`)
+- `prototype/automate_onboarding.py` — Playwright script automating the
+  repetitive loop found in real segments (click row -> read data ->
+  paste note -> submit), looped across cases
+
+Added risk mitigations directly into the prototype rather than
+polishing UI (per README: polish isn't evaluated, judgment is):
+- Dry-run mode — previews actions without submitting, so a real
+  deployment doesn't blind-submit HR record changes
+- Logging with masked employee identifiers (SHA-256 truncated hash) —
+  auditable trail without exposing PII in logs
+- Basic edge-case handling (e.g. missing note field) instead of
+  crashing
+- Documented current prototype limitations (UI fragility, headless
+  mode, note template) in the work log/report rather than hiding them
+
+## Day 5: OCR investigation (screen content as a labeling signal)
+
+Explored whether OCR on screenshots could improve label purity for the
+~50% of segments with no URL signal (generic apps), and separately give
+better insight into what onboarding actually involves.
+
+- Legibility gut-check on 5 real screenshots: passed — Tesseract (jpn)
+  correctly extracted document titles, company names, transaction
+  types, dates
+- Built OCR-augmented fingerprint: `(apps, paths, ocr_snippet)`, with
+  `ocr_snippet` only used when `paths` is empty
+- Tested on Dataset A: purity 45.9% -> 47.1% (+1.3%), zero regressions
+- Diagnosed the modest gain: only 14.8% of Dataset A's referenced
+  screenshots exist on disk (missing-file constraint, not an OCR
+  quality issue — confirmed via 50/50 spot-check of empty-text cases,
+  all `missing_file`, zero `tesseract_error`)
+- Applied the same fingerprint to Dataset B (100% screenshot coverage,
+  no missing-file constraint) to see the method's real ceiling
+- **Result: label count exploded from 79 -> 423.** Diagnosed cause: raw
+  OCR text is instance-specific (dates, amounts, names differ per
+  document even for the same process type), so exact-match fingerprinting
+  fragments repeated executions of the same process into near-unique
+  labels instead of grouping them
+- Recognized this as a metric-validity flaw, not just a weak result:
+  purity trivially favors smaller clusters, so a purity increase on
+  Dataset A didn't actually confirm correct grouping — it can reward
+  over-fragmentation the same way recall-without-precision did in Day 2
+- **Decision: rejected.** OCR-augmented labeling not adopted for the
+  final deliverable. `outputs/segments.jsonl` (URL/route-based +
+  clean generic-app tags) remains the submitted file.
+  `outputs/segments_with_ocr.jsonl` kept in the repo for transparency
+  only, explicitly marked as a rejected experiment, not the deliverable.
+
+This is the fourth tested-and-rejected Step 1 refinement (after v3
+time-merge, v4 identity-filter, and the earlier `extracted_text`
+signal test), alongside the one that did work (v2 boundary detection +
+route-based labeling).

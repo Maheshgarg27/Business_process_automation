@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head><title>Mock Payroll Portal</title></head>
+<head>
+  <meta charset="UTF-8">
+  <title>Mock Payroll Portal</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; max-width: 700px; }
+    textarea { width: 100%; height: 120px; font-size: 16px; padding: 10px; box-sizing: border-box; }
+    button { padding: 12px 24px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+  </style>
+</head>
 <body>
   <h2>Payroll Item</h2>
-  <textarea id="pi-note" placeholder="処理内容・確認コメントを入力してください…"></textarea>
+  <textarea id="pi-note" placeholder="処理内容・確認コメントを入力してください…"></textarea><br>
   <button id="btn-pi-ok">承認</button>
   <script>
     document.getElementById("btn-pi-ok").addEventListener("click", () => {

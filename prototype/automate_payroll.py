@@ -93,11 +93,11 @@ def process_case(page, case, dry_run):
 
         if dry_run:
             logging.info(f"[DRY RUN] Case {masked}: would submit -> {note}")
-            return {"case_id": case["case_id"], "status": "dry_run_previewed", "note_used": note}
+            return {"case_id": case["case_id"], "status": "dry_run_previewed", "category_type": case.get("category_type"), "note_used": note}
         else:
             page.locator("#btn-pi-ok").click()
             logging.info(f"Case {masked}: submitted")
-            return {"case_id": case["case_id"], "status": "submitted", "note_used": note}
+            return {"case_id": case["case_id"], "status": "submitted", "category_type": case.get("category_type"), "note_used": note}
 
     except ValueError as e:
         logging.warning(f"Case {masked}: unrecognized category - {e}")

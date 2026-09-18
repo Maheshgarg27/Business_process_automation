@@ -21,3 +21,9 @@ outputs/automation_log.txt
 ~$*.xlsx
 prototype/_mock_portal.html
 outputs/payroll_automation_log.txt
+
+runtime/
+backups/
+data/input/
+__pycache__/
+*.pyc

@@ -421,34 +421,54 @@ Explored whether OCR on screenshots could improve label purity for the
 ~50% of segments with no URL signal (generic apps), and separately give
 better insight into what onboarding actually involves.
 
-- Legibility gut-check on 5 real screenshots: passed — Tesseract (jpn)
+**Setup and validation**
+- Legibility gut-check on 5 real screenshots: passed. Tesseract (jpn)
   correctly extracted document titles, company names, transaction
-  types, dates
-- Built OCR-augmented fingerprint: `(apps, paths, ocr_snippet)`, with
-  `ocr_snippet` only used when `paths` is empty
-- Tested on Dataset A: purity 45.9% -> 47.1% (+1.3%), zero regressions
-- Diagnosed the modest gain: only 14.8% of Dataset A's referenced
-  screenshots exist on disk (missing-file constraint, not an OCR
-  quality issue — confirmed via 50/50 spot-check of empty-text cases,
-  all `missing_file`, zero `tesseract_error`)
-- Applied the same fingerprint to Dataset B (100% screenshot coverage,
-  no missing-file constraint) to see the method's real ceiling
+  types and dates
+- Built an OCR-augmented fingerprint + purity test script. Fingerprint
+  is `(apps, paths, ocr_snippet)`, with `ocr_snippet` computed only when
+  `paths` is empty. OCR text is fed into the grouping itself, not just
+  extracted as metadata
+
+**Dataset A testing**
+- First 10-session run compared against the wrong baseline (63-session
+  global 46.8% vs a 10-session subset). Caught this and re-ran
+  apples-to-apples
+- Fixed 10-session test: purity 39.9% -> 41.5% (+1.6, same sessions,
+  same segments)
+- Full 63-session run: 45.9% -> 47.1% (+1.3), zero sessions regressed.
+  This is mathematically expected, since OCR only refines existing
+  groups and never merges them
+- Diagnosed the zero-delta sessions with `check_screenshot_coverage.py`:
+  only 14.8% of Dataset A's referenced screenshots exist on disk
+- Spot-checked 50 empty-text cache entries: 50/50 were `missing_file`,
+  0 `genuinely_empty`, 0 `tesseract_error`. The modest gain is a
+  missing-file constraint, not an OCR quality issue
+
+**Dataset B testing**
+- Checked Dataset B coverage: 100% (4746/4746), so no missing-file
+  constraint. This is the method's real ceiling
+- Ran `apply_ocr_labels_dataset_b.py` on the 1016-segment deliverable,
+  writing to a new file (original left untouched)
 - **Result: label count exploded from 79 -> 423.** Diagnosed cause: raw
   OCR text is instance-specific (dates, amounts, names differ per
   document even for the same process type), so exact-match fingerprinting
   fragments repeated executions of the same process into near-unique
   labels instead of grouping them
 - Recognized this as a metric-validity flaw, not just a weak result:
-  purity trivially favors smaller clusters, so a purity increase on
-  Dataset A didn't actually confirm correct grouping — it can reward
+  purity trivially favors smaller clusters, so the purity increase on
+  Dataset A didn't actually confirm correct grouping. It can reward
   over-fragmentation the same way recall-without-precision did in Day 2
-- **Decision: rejected.** OCR-augmented labeling not adopted for the
-  final deliverable. `outputs/segments.jsonl` (URL/route-based +
-  clean generic-app tags) remains the submitted file.
-  `outputs/segments_with_ocr.jsonl` kept in the repo for transparency
-  only, explicitly marked as a rejected experiment, not the deliverable.
+
+**Decision: rejected.** OCR-augmented labeling not adopted for the
+final deliverable. `outputs/segments.jsonl` (URL/route-based +
+clean generic-app tags) remains the submitted file.
+`outputs/segments_with_ocr.jsonl` kept in the repo for transparency
+only, explicitly marked as a rejected experiment, not the deliverable.
 
 This is the fourth tested-and-rejected Step 1 refinement (after v3
 time-merge, v4 identity-filter, and the earlier `extracted_text`
 signal test), alongside the one that did work (v2 boundary detection +
 route-based labeling).
+
+I forgot to commit my worklog on day 5,6

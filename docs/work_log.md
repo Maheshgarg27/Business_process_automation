@@ -472,3 +472,40 @@ signal test), alongside the one that did work (v2 boundary detection +
 route-based labeling).
 
 I forgot to commit my worklog on day 5,6
+
+## Day 6: Process prioritization and automation target selection
+
+Reduced-capacity day, since midsem exams overlapped with the project. Spent
+the working time on prioritizing which processes to automate and starting
+to think about how the pipeline could become a usable tool rather than
+just an analysis.
+
+**Prioritization**
+- Ranked the candidate processes by impact (total time, occurrences,
+  session reach) and weighed each against feasibility risk (application
+  spread, duration variability)
+- Ranking: 1) payroll-items (48.7 min, 143 occurrences, 14/15 sessions),
+  2) leave-applications (26.0 min, 120 occurrences), 3) onboarding
+  (21.4 min, 96 occurrences, lowest variability at std ~6.4s),
+  4) social-insurance (16.8 min), 5) resident-tax (11.0 min)
+- Excluded "dashboard": only 1.8 min total, and it looks like
+  navigation/orientation rather than a real task
+- payroll-items has roughly double the impact of the next process and
+  touches nearly every worker, but it is also the most complex (10
+  distinct applications). The recommendation was to scope it carefully
+  rather than attempt full end-to-end automation right away
+- onboarding remains the lowest-risk, most predictable candidate and a
+  good proof-of-concept option
+
+**Decision**
+- Chose payroll as the automation target. It breaks down into 7
+  sub-processes: `budget_variance`, `expense_reimbursement`,
+  `inventory_adjustment`, `invoice_approval`, `leave_request`,
+  `onboarding_match`, `order_management`
+- Started thinking through how the pipeline (segmentation, labeling,
+  prioritization) could be packaged as a tool, and which of these
+  sub-processes are the best candidates to automate first
+
+Made limited progress beyond this because the rest of the day went to
+exam preparation. Next step is to scope the 7 sub-processes and pick the
+first one to build (Step 3).

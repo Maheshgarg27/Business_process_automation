@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+requests
+openpyxl
+pyyaml
+reportlab
+python-docx
+pypdf

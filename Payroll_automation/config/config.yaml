@@ -1,0 +1,82 @@
+
+run_date: "2026-07-06"        # business date of this batch (null = today)
+budget_period: "2026-06"      # ledger period the budget rows refer to
+
+api:
+  base_url: "http://127.0.0.1:8765"
+  api_key: "payroll-demo-key-001"   # sent as X-API-Key header on every call
+  timeout_sec: 10
+  retries: 3
+  autostart_services: true          # start the mock enterprise systems automatically
+
+onboarding:
+  required_documents:
+    新卒:        [resume, graduation_certificate, id_copy, offer_acceptance, bank_form, health_certificate]
+    中途:        [resume, career_history, id_copy, signed_contract, bank_form, health_certificate, withholding_slip]
+    新卒家族持:  [resume, graduation_certificate, id_copy, offer_acceptance, bank_form, health_certificate, dependent_form, residence_certificate]
+    契約社員:    [resume, id_copy, signed_contract, bank_form, health_certificate]
+  min_experience_years: {新卒: 0, 中途: 3, 新卒家族持: 0, 契約社員: 1}
+  certificate_max_age_days: 90
+  min_age: 18
+
+invoice:
+  tolerance_pct: 1.0        # invoice vs PO / goods receipt allowed gap (%)
+  tolerance_yen: 500        # or this many yen, whichever is larger
+
+leave:
+  half_day_max_per_year: 10
+  min_attendance_rate: 0.80     # Labor Standards Act art.39 (80% rule)
+  flex_core_start: "11:00"
+  flex_core_end: "15:00"
+  flex_max_changes_per_month: 3
+  team_max_absent_ratio: 0.30
+  comp_day_valid_days: 60
+  special_leave_days: {結婚: 5, 忌引_配偶者: 7, 忌引_父母: 5, 忌引_祖父母: 3, 忌引_兄弟姉妹: 3, 出産_配偶者: 2}
+
+expense:
+  approval_deadline_days: 60
+  receipt_required_over: 3000
+  limits:                       # auto-approve up to `auto`, manager approval up to `max`
+    出張旅費:   {auto: 60000,  max: 150000}
+    消耗品費:   {auto: 30000,  max: 50000}
+    交通費精算: {auto: 30000,  max: 60000}
+    研修費:     {auto: 50000,  max: 200000}
+    接待交際費: {auto: 50000,  max: 150000}
+  entertainment_per_head: 10000   # 接待交際費 per-attendee cap
+
+budget:
+  ok_pct: 5.0            # |variance| <= 5%  -> within budget
+  note_pct: 10.0         # 5-10%             -> comment required
+  mismatch_tolerance_pct: 0.1   # sheet variance vs recomputed
+
+inventory:
+  max_single_adjust_ratio: 0.30   # one adjustment > 30% of on-hand needs approval
+
+orders:
+  price_tolerance_pct: {年間契約: 3.0, 定期発注: 5.0, スポット発注: 10.0, 緊急発注: 15.0}
+  approval_levels:               # total amount (JPY) -> who must approve
+    manager: 1000000
+    director: 10000000
+  auto_approve_below: 1000000
+
+# ---- where documents live in the shared drive (filled with identifiers taken from system records) ----
+paths:
+  receipt:      "Expense/{emp_id}/{yyyy_mm}/{claim_id}_receipt.pdf"
+  invoice_pdf:  "AP/{vendor_id}/{invoice_id}.pdf"
+  contract:     "Contracts/{vendor_id}/{contract_no}.docx"
+  leave_proof:  "HR/Leave/{emp_id}/{case_id}_proof.docx"
+  attendance:   "HR/Attendance/"
+  quote:        "Procurement/Quotes/{vendor_id}/{quote_no}.pdf"
+  price_list:   "Procurement/PriceLists/{vendor_id}.xlsx"
+  count_sheet:  "Warehouse/Counts/{item_code}_{request_no}.xlsx"
+  gl:           "Finance/GL/{period}.xlsx"
+  memo:         "Payroll/Automation/Memos/{run_id}/{case_id}.txt"
+
+# ---- approval workflow (human-in-the-loop) ----
+workflow:
+  reminder_days: 3
+  escalate_days: 5
+  approvers:                    # roles that are not "the department head"
+    director: "exec-office@company.local"
+    procurement: "procurement-manager@company.local"
+    warehouse: "warehouse-manager@company.local"

@@ -33,3 +33,5 @@ __pycache__/
 **/data/input/
 __pycache__/
 *.pyc
+
+DATA_SCHEMA*.md

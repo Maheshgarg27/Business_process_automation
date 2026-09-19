@@ -1,6 +1,43 @@
 # Work Log
 
+## About this log
+
+### The seven days in short
+
+| Day | Time (approx.) | What I did |
+|---|---|---|
+| 1 | 4-5 hours | Studied the structure of Dataset A and B and what the logs can tell us |
+| 2 | 6-7 hours | Built the boundary detector and an evaluation metric; tested two filters and rejected both |
+| 3 | 5-6 hours | Labeled segments by process, merged them, ran the full pipeline on Dataset B, spot-checked the result |
+| 4 | 4-5 hours | Checked for API evidence, fixed a label inconsistency between Step 1 and Step 2, built a first prototype |
+| 5 | 3-4 hours | Investigated OCR as a labeling signal and rejected it |
+| 6 | 2-3 hours | Ranked the processes and chose payroll as the automation target (midsem exam day) |
+| 7 | 6-7 hours | Built and tested the payroll automation tool with a control panel, wrote the process manual, recorded a demo video |
+
+In total this is about 30-37 hours. I did not track my time while working. These are estimates that I reconstructed on the last day from memory and from my laptop's battery report.
+
+### How I worked
+
+I worked on the project every day. The midsem exam affected only Day 6. On the other days I did the project work first and studied afterwards. In Step 1 I tried to test every idea on the data before I kept or dropped it, and four ideas were dropped that way (see Days 2, 3 and 5). For Step 3 I first had to decide what kind of tool would make sense for a real company, and I changed direction once (see Day 7).
+
+### How I used AI
+
+I used AI assistants during the project, which the task allows. In short:
+
+- **What the AI did:** it helped me write code  and it helped me write parts of this log.
+- **What I did:** I decided what to test and what counted as a good enough result, I chose which ideas to keep or reject based on the numbers, I chose payroll as the target, and I defined what the Step 3 tool must do. I ran the code on my laptop, looked at the results, and found problems by running things.
+- **Suggestions:** the AI suggested several options,but i didn't follow them blindly i used just them to understand and then i add my suggestion , my ideas and then I proceed I explored amny things and choose the best one.
+
+
+### How this log was kept
+
+I wrote the entries during the week .I forgot to commit the entries of Day 5, so they were committed late. On the last day (Day 7) I went through the log once more and added this "About this log" section, the time per day, the Day 7 description and the closing note. I did not change the technical content, numbers or decisions of the earlier entries.
+
+---
+
 ## Day 1 — Dataset Understanding and Exploration
+
+**Time:** about 4-5 hours.
 
 ### Objective
 
@@ -38,6 +75,8 @@ Use Dataset A to study general behavioral signals associated with execution boun
 Investigate and develop an execution-segmentation approach using the ground truth available in Dataset A.
 
 ## Day 2
+
+**Time:** about 6-7 hours.
 
 **What I built:**
 - `evaluate()` / `evaluate_full()` — a metric function that compares predicted
@@ -206,6 +245,8 @@ precision looks weak in isolation.
 
 ## Day 3: Labeling segments by business process
 
+**Time:** about 5-6 hours.
+
 **Goal:** Once boundaries were detected (Day 2), the next problem was
 assigning each resulting segment a consistent label - the same underlying
 business process should get the same label every time it recurs.
@@ -358,6 +399,8 @@ used to re-aggregate the Dataset B process-frequency analysis for Step 2.
 
 ## Day 4 : checked for API evidence before choosing implementation approach
 
+**Time:** about 4-5 hours.
+
 Before committing to UI-automation, checked DOM attributes on onboarding
 events for signs of a callable API (action/method attributes). Found
 none across 367 events - inconclusive given this is a JS SPA, but
@@ -417,6 +460,8 @@ polishing UI (per README: polish isn't evaluated, judgment is):
 
 ## Day 5: OCR investigation (screen content as a labeling signal)
 
+**Time:** about 3-4 hours.
+
 Explored whether OCR on screenshots could improve label purity for the
 ~50% of segments with no URL signal (generic apps), and separately give
 better insight into what onboarding actually involves.
@@ -475,6 +520,8 @@ I forgot to commit my worklog on day 5,6
 
 ## Day 6: Process prioritization and automation target selection
 
+**Time:** about 2-3 hours.
+
 Reduced-capacity day, since midsem exams overlapped with the project. Spent
 the working time on prioritizing which processes to automate and starting
 to think about how the pipeline could become a usable tool rather than
@@ -512,10 +559,20 @@ first one to build (Step 3).
 
 ## Day 7 - Step 3 tool: build, test and wrap-up
 
-**Time spent:** [fill in hours]
+**Time:** about 6-7 hours.
 
 ### Goal for the day
 Finish the Step 3 automation tool and make it demonstrable end to end: one input spreadsheet in, a decision and reason for every row out, with the supporting evidence (mails, documents, system updates) visible afterwards.
+
+### How Day 7 went, in order
+1. **Changing direction.** My first idea for the payroll tool (the payroll files in `prototype/`) opened visible windows and mock portals while it worked. I decided against that. A real company would want the tool to run in the background and reach its systems through APIs, so I asked for a tool that runs without opening any application, with the systems behind connectors.
+2. **Sample data from the logs.** I extracted a sample sheet of real cases from the Dataset B logs (145 rows across the seven sub-processes). It only holds a few values per case, so the tool needs the surrounding records and documents to decide anything.
+3. **The pipeline without a user interface.** I first built it as a command-line pipeline: read the sheet, check each row, write the decision back into the same sheet. I insisted that the dummy data should behave like a real company and not like a toy: about 50 cases per process, with rules that go beyond checking that a document is attached, for example experience for onboarding, tolerances for invoices, limits per category for expenses.
+4. **Real documents.** I pointed out that many decisions depend on documents that a person would open (receipts, contracts, proofs, price lists). The generator now creates real PDF, Word and Excel files, and the tool opens and reads them.
+5. **Approval loop and payroll export.** Cases that only need a person's approval are sent to the approver, and finished on the next run when the reply arrives. Approved expenses and leave go to a payroll export.
+6. **A mailbox view.** I wanted to see what an employee or candidate sent and what the tool replied, as in a real mailbox. It became a mailbox page, later in Japanese and English.
+7. **The control panel.** Until now I started everything from the terminal. I asked for one command that opens a page with a heading, a Start button and the live log, that shows the dashboard first when the run is finished, and that offers the result spreadsheet and the mailbox after that. Then I added an input preview, a file picker for choosing a spreadsheet from the computer, and a fix for the table header in the spreadsheet view.
+8. **Wrap-up.** I tested the whole loop several times, wrote a process manual that explains the pipeline, and recorded a demo video.
 
 ### What I built
 A payroll back-office automation platform that processes seven kinds of cases from one sheet: onboarding, invoice approval, leave request, expense reimbursement, inventory adjustment, budget variance and order management.
@@ -557,12 +614,20 @@ This check has a limit. The expected results and the data come from the same gen
 
 ### Decisions and trade-offs
 - **Rules in a config file, not in code**, so a policy change does not need a code change.
-- **Kept `NEEDS_REVIEW`.** I considered reducing everything to approved or rejected. I kept the third state because a tool that cannot verify something should hand it to a person, not guess. I also tried making approval a switch and decided against it.
+- **Kept `NEEDS_REVIEW`.** I considered reducing everything to approved or rejected. I kept the third state because a tool that cannot verify something should hand it to a person, not guess. I also discussed making approval a switch and decided against it.
 - **English mailbox with a phrase table instead of a translation service.** All sentences come from fixed templates, so a table is enough, works offline and needs no key. Names are romanised with a small dictionary. Unknown text stays unchanged.
 - **Simulated systems behind real API calls.** The tool only talks to one API client. Replacing a system means changing an address, credentials and endpoint mappings.
 
-I used an AI assistant this work: to discuss the design, to draft code , the data generator, the reports and the control panel, and to write test scripts. I ran everything myself, chose the scope and behaviour (50 cases per process, keep `NEEDS_REVIEW`, the approval loop, the bilingual mailbox, the preview and file picker), found the Excel lock problem by running it, and reviewed the results. 
+### How I used AI on this tool
+- **What I decided and asked for:** the direction (a background tool that reaches systems through APIs, not visible windows), realistic rules and about 50 dummy cases per process, that the tool must open and read the documents, that the input columns stay untouched and results go into new columns, keeping `NEEDS_REVIEW`, the control panel with a Start button and live log, the dashboard first, the Japanese and English mailbox, the input preview and the file picker.
+- **What the AI did:** it proposed the architecture (connector layer, rules in a configuration file, approval loop, audit log) and wrote most of the code and the test scripts.
+- **What I did myself:** I ran the tool on my laptop, found the Excel lock problem and the layout problem in the spreadsheet view, reviewed the dashboard, spreadsheet and mailbox, and pushed back when something was not what I wanted.
 
 ### Next
 - Read through each module again so I can explain every rule.
 - Finish the final report: risks (identity mapping, document formats, policy ownership), what manual work remains, and the rollout plan (shadow mode first).
+
+After that I recorded a demo video of the tool: the control panel, the live run, the dashboard, the result spreadsheet, the mailbox and the approval loop.
+
+### Closing note
+It was a good journey and I enjoyed working on it. I started with raw event logs that said nothing about the work, and I ended with a working tool built on the process I found in them. I learned to test an idea before trusting it, to drop what the data did not support, and to be clear about what a prototype shows and what it does not.

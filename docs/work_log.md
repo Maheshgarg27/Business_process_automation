@@ -509,3 +509,60 @@ just an analysis.
 Made limited progress beyond this because the rest of the day went to
 exam preparation. Next step is to scope the 7 sub-processes and pick the
 first one to build (Step 3).
+
+## Day 7 - Step 3 tool: build, test and wrap-up
+
+**Time spent:** [fill in hours]
+
+### Goal for the day
+Finish the Step 3 automation tool and make it demonstrable end to end: one input spreadsheet in, a decision and reason for every row out, with the supporting evidence (mails, documents, system updates) visible afterwards.
+
+### What I built
+A payroll back-office automation platform that processes seven kinds of cases from one sheet: onboarding, invoice approval, leave request, expense reimbursement, inventory adjustment, budget variance and order management.
+
+**How one run works**
+
+1. The tool backs up the workbook and checks that every system API answers.
+2. Each row is routed by `category_type` to its process engine.
+3. The engine looks up the records it needs through REST APIs (mail server, HR system, ERP, procurement, warehouse system, shared drive). It opens the supporting documents (Word, PDF, Excel), reads the values inside them, and compares three sources: the sheet, the system record and the document.
+4. Configured rules (thresholds, tolerances, document lists) produce a decision: `APPROVED`, `REJECTED` or `NEEDS_REVIEW` (`ERROR` only for technical failures).
+5. The engine performs the follow-up actions: reply mail, leave deducted, purchase order created, stock movement posted, decision booked.
+6. The decision and reason are written back into the same workbook in new columns. The original columns are never changed. Every decision is also appended to an audit log, and a short decision memo is stored on the shared drive.
+
+**Approval loop.** When a case only waits for a person's approval (for example a manager approval on an expense), the tool mails the approver and remembers the case. On the next run it reads the approver's reply and finishes the case. It sends a reminder after 3 days and an escalation after 5.
+
+**Outputs.** The updated spreadsheet, a results dashboard, a mailbox view (candidate mails and the tool's replies, in Japanese or English), and a payroll adjustment export of approved reimbursements and leave deductions.
+
+**Control panel.** `python app.py` builds fresh dummy data, then opens a page where I choose a spreadsheet (from the generated one or from my computer), press Start, watch the live log and progress, and then view the dashboard, the spreadsheet and the mailbox.
+
+### The dummy data
+The client systems are not available, so I built a simulated company.
+
+- I wrote a generator that creates about 350 cases (50 per process), shuffled together, using the same columns as the sample sheet.
+- For every case it also creates the surrounding world: employees and leave balances, application mails with Word attachments, invoices, purchase orders and goods receipts, expense claims, stock levels, quotations and blanket contracts, and about 225 real documents (PDF, Word, Excel) on a simulated shared drive.
+- Each process has a planned mix of clean cases, borderline cases and clearly failing cases, so every rule is triggered by at least one row.
+- The generator uses a seed. The same seed gives the same data again, which makes tests repeatable. The app picks a new seed each time unless I pass one.
+- The generator also writes the result a correct run should produce for each row.
+
+### How I checked it
+I compare each run with the expected results the generator wrote. On the default seed the first run matched 350 of 350 rows, and after the simulated approver replies the resumed cases also matched 350 of 350. A second run does nothing and makes no extra mails or postings. A malformed row is marked `ERROR` and the batch continues.
+
+This check has a limit. The expected results and the data come from the same generator, so it proves that the rules behave as I designed them, not that the rules match real company policy.
+
+### What went wrong and how I fixed it
+- **Excel file lock.** A run processed all rows and then failed when saving because the workbook was open in Excel. I made the tool check that the file is writable before starting, and save a fallback copy if the file becomes locked during the run.
+- **Duplicate mails after a failed run.** A half-finished run leaves side effects behind, so I regenerate the data for a clean start. Server-side idempotency (one action per case) prevents double mails or double deductions on a normal re-run.
+- **Spreadsheet view.** In the browser view the rows scrolled above the table header. I put the table in its own scroll area with a sticky header.
+- **Git.** I first created a feature branch by mistake and then went back to committing on `main`, so the history stays in one line.
+
+### Decisions and trade-offs
+- **Rules in a config file, not in code**, so a policy change does not need a code change.
+- **Kept `NEEDS_REVIEW`.** I considered reducing everything to approved or rejected. I kept the third state because a tool that cannot verify something should hand it to a person, not guess. I also tried making approval a switch and decided against it.
+- **English mailbox with a phrase table instead of a translation service.** All sentences come from fixed templates, so a table is enough, works offline and needs no key. Names are romanised with a small dictionary. Unknown text stays unchanged.
+- **Simulated systems behind real API calls.** The tool only talks to one API client. Replacing a system means changing an address, credentials and endpoint mappings.
+
+I used an AI assistant this work: to discuss the design, to draft code , the data generator, the reports and the control panel, and to write test scripts. I ran everything myself, chose the scope and behaviour (50 cases per process, keep `NEEDS_REVIEW`, the approval loop, the bilingual mailbox, the preview and file picker), found the Excel lock problem by running it, and reviewed the results. 
+
+### Next
+- Read through each module again so I can explain every rule.
+- Finish the final report: risks (identity mapping, document formats, policy ownership), what manual work remains, and the rollout plan (shadow mode first).

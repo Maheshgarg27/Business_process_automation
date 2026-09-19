@@ -477,12 +477,8 @@ def gen_orders(w):
         drive_write(cfg["paths"]["price_list"].format(vendor_id=v), xlsx_bytes(["item", "contract_unit_price"], [[i, p] for i, p in items.items()]))
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--per-process", type=int, default=50)
-    ap.add_argument("--seed", type=int, default=2026)
-    ap.add_argument("--out", default=str(ROOT / "data" / "input" / "payroll_cases_test.xlsx"))
-    a = ap.parse_args()
+def build(per_process=50, seed=2026, out=None):
+    """Create a fresh test world (sheet + systems + documents). Returns a small info dict."""
     cfg = load_config()
     store.clear_all()
     for stale in ("workflow_state.json", "audit_log.jsonl", "mailbox.html", "dashboard.html"):      # start from a clean run history
@@ -491,13 +487,18 @@ def main():
     if DRIVE.exists():
         shutil.rmtree(DRIVE)
     DRIVE.mkdir(parents=True)
-    w = World(a.seed, cfg, a.per_process)
+    w = World(seed, cfg, per_process)
     gen_leave(w)                                       # creates departments first
     for g in (gen_onboarding, gen_invoice, gen_expense, gen_inventory, gen_budget, gen_orders):
         g(w)
     w.rng.shuffle(w.rows)
-    out = Path(a.out)
+    out = Path(out or ROOT / "data" / "input" / "payroll_cases_test.xlsx")
     out.parent.mkdir(parents=True, exist_ok=True)
+    for old in out.parent.glob("*.xlsx"):              # only one dummy sheet exists at a time
+        try:
+            old.unlink()
+        except OSError:
+            pass
     wb = Workbook()
     ws = wb.active
     ws.title = "cases"
@@ -507,10 +508,25 @@ def main():
     wb.save(out)
     (out.parent / "expected_results.json").write_text(json.dumps(w.expected, ensure_ascii=False, indent=1), encoding="utf-8")
     from collections import Counter
-    print(f"Wrote {len(w.rows)} rows -> {out}")
-    print(dict(Counter(r["category_type"] for r in w.rows)))
-    print("expected first-run:", dict(Counter(v["first"] for v in w.expected.values())))
-    print("files on shared drive:", sum(1 for f in DRIVE.rglob("*") if f.is_file()))
+    info = {"sheet": out.name, "path": str(out), "rows": len(w.rows), "seed": seed, "per_process": per_process,
+            "by_process": dict(Counter(r["category_type"] for r in w.rows)),
+            "expected_first_run": dict(Counter(v["first"] for v in w.expected.values())),
+            "files_on_drive": sum(1 for f in DRIVE.rglob("*") if f.is_file())}
+    (out.parent / "meta.json").write_text(json.dumps(info, ensure_ascii=False, indent=1), encoding="utf-8")
+    return info
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--per-process", type=int, default=50)
+    ap.add_argument("--seed", type=int, default=2026)
+    ap.add_argument("--out", default=None)
+    a = ap.parse_args()
+    info = build(a.per_process, a.seed, a.out)
+    print(f"Wrote {info['rows']} rows -> {info['path']}")
+    print(info["by_process"])
+    print("expected first-run:", info["expected_first_run"])
+    print("files on shared drive:", info["files_on_drive"])
 
 
 if __name__ == "__main__":

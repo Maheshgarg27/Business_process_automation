@@ -564,16 +564,21 @@ first one to build (Step 3).
 ### Goal for the day
 Finish the Step 3 automation tool and make it demonstrable end to end: one input spreadsheet in, a decision and reason for every row out, with the supporting evidence (mails, documents, system updates) visible afterwards.
 
-### How Day 7 went, in order
-1. **Changing direction.** My first idea for the payroll tool (the payroll files in `prototype/`) opened visible windows and mock portals while it worked. I decided against that. A real company would want the tool to run in the background and reach its systems through APIs, so I asked for a tool that runs without opening any application, with the systems behind connectors.
-2. **Sample data from the logs.** I extracted a sample sheet of real cases from the Dataset B logs (145 rows across the seven sub-processes). It only holds a few values per case, so the tool needs the surrounding records and documents to decide anything.
+
+### The two folders, and how Day 7 went, in order
+There are two tool folders in the repository. They are two different attempts:
+
+- **`prototype/`** is my first attempt. On Day 4 I built the onboarding automation there (a Playwright script against a mock portal). After I chose payroll as the target, I tried to automate the payroll process in the same way, with mock portals and scripts that drive the screens and Excel (`mock_payroll_portal*.html`, `automate_payroll*.py`, `payroll_tool_app.py`). I dropped this approach. I kept the folder because it shows how my idea developed.
+- **`Payroll_automation/`** is the final Step 3 tool. It is a new approach that I started with the help of an AI assistant. Everything below, except the first point, is about this folder.
+
+1. **Dropping the first approach.** The scripts in `prototype/` depended on screens and windows, and I had already noted on Day 4 that this kind of automation is fragile. A real company would not work like that. They would hand over a spreadsheet and expect the tool to work in the background, reading mails, documents and system records through APIs and connectors, and writing the result back. So I decided to start again with a tool that runs without opening any application, with the systems behind connectors.
+2. **Sample data from the logs.** In the prototype phase I extracted a sample sheet of real payroll cases from the recorded logs (`prototype/extract_real_payroll_cases.py`, 145 rows across the seven sub-processes). It only holds a few values per case, so the tool needs the surrounding records and documents to decide anything. I used the same columns as the input format of the new tool.
 3. **The pipeline without a user interface.** I first built it as a command-line pipeline: read the sheet, check each row, write the decision back into the same sheet. I insisted that the dummy data should behave like a real company and not like a toy: about 50 cases per process, with rules that go beyond checking that a document is attached, for example experience for onboarding, tolerances for invoices, limits per category for expenses.
 4. **Real documents.** I pointed out that many decisions depend on documents that a person would open (receipts, contracts, proofs, price lists). The generator now creates real PDF, Word and Excel files, and the tool opens and reads them.
 5. **Approval loop and payroll export.** Cases that only need a person's approval are sent to the approver, and finished on the next run when the reply arrives. Approved expenses and leave go to a payroll export.
 6. **A mailbox view.** I wanted to see what an employee or candidate sent and what the tool replied, as in a real mailbox. It became a mailbox page, later in Japanese and English.
 7. **The control panel.** Until now I started everything from the terminal. I asked for one command that opens a page with a heading, a Start button and the live log, that shows the dashboard first when the run is finished, and that offers the result spreadsheet and the mailbox after that. Then I added an input preview, a file picker for choosing a spreadsheet from the computer, and a fix for the table header in the spreadsheet view.
 8. **Wrap-up.** I tested the whole loop several times, wrote a process manual that explains the pipeline, and recorded a demo video.
-
 ### What I built
 A payroll back-office automation platform that processes seven kinds of cases from one sheet: onboarding, invoice approval, leave request, expense reimbursement, inventory adjustment, budget variance and order management.
 
@@ -631,3 +636,4 @@ After that I recorded a demo video of the tool: the control panel, the live run,
 
 ### Closing note
 It was a good journey and I enjoyed working on it. I started with raw event logs that said nothing about the work, and I ended with a working tool built on the process I found in them. I learned to test an idea before trusting it, to drop what the data did not support, and to be clear about what a prototype shows and what it does not.
+

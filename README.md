@@ -1,5 +1,3 @@
-# Intern Selection Task: submission by [your full name]
-
 - **Full name:** Mahesh
 - **University:** IIT Bhilai
 - **Department / major:** Electronics & Communication Engineering

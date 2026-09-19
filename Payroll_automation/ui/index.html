@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Payroll Process Automation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--navy:#1F3A5F;--acc:#1a73e8;--bg:#f3f6fb;--card:#fff;--line:#e1e6ee;--mut:#66748a;--ok:#2e7d32;--bad:#c62828;--warn:#b7791f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#1f2328;font:15px/1.5 -apple-system,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif}
+header{background:linear-gradient(135deg,#17304f,#1F3A5F 60%,#2b5288);color:#fff;padding:26px 40px}
+header h1{margin:0;font-size:26px;letter-spacing:.3px}header p{margin:6px 0 0;opacity:.8;font-size:14px}
+main{max-width:1180px;margin:0 auto;padding:24px 28px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(20,40,80,.05)}
+.card h2{margin:0 0 14px;font-size:16px;color:var(--navy);display:flex;align-items:center;gap:10px}
+.num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;align-items:center;justify-content:center;font-size:13px}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+select{padding:10px 12px;border:1px solid #c9d2e0;border-radius:8px;font-size:14px;min-width:300px;background:#fff}
+button{font:inherit;cursor:pointer;border-radius:8px;padding:10px 20px;border:1px solid #c9d2e0;background:#fff;color:#1f2328}
+button:hover:not(:disabled){background:#eef3fb}
+button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;padding:10px 28px;font-size:15px}
+button.primary:hover:not(:disabled){background:#1666cc}
+button:disabled{opacity:.5;cursor:not-allowed}
+.meta{color:var(--mut);font-size:13px;margin-top:10px}
+.pill{display:inline-block;background:#eaf1fb;color:var(--navy);border-radius:12px;padding:2px 10px;margin-right:6px;font-size:12px}
+.bar{height:12px;background:#e6ebf3;border-radius:8px;overflow:hidden;margin:4px 0 4px}
+.bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#1a73e8,#4c9bff);transition:width .25s}
+.bar.done>i{background:var(--ok)}.bar.err>i{background:var(--bad)}
+.pl{display:flex;justify-content:space-between;color:var(--mut);font-size:13px}
+#log{background:#0e1726;color:#cfd8e6;border-radius:10px;padding:12px 14px;margin-top:12px;height:300px;overflow:auto;font:12.5px/1.55 ui-monospace,Consolas,"Courier New",monospace;white-space:pre-wrap;word-break:break-all}
+#log .APPROVED{color:#6fdc8c}#log .REJECTED{color:#ff7b7b}#log .NEEDS_REVIEW{color:#ffd166}#log .ERROR{color:#ff9f43}#log .cmd{color:#7fb2ff}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:0;flex-wrap:wrap;align-items:center}
+.tab{padding:10px 18px;border:1px solid transparent;border-bottom:none;border-radius:10px 10px 0 0;cursor:pointer;color:var(--mut);background:none}
+.tab.on{background:#fff;border-color:var(--line);color:var(--navy);font-weight:600;position:relative;top:1px}
+.spacer{flex:1}
+.seg{display:inline-flex;border:1px solid #c9d2e0;border-radius:8px;overflow:hidden;margin-bottom:6px}
+.seg button{border:none;border-radius:0;padding:6px 14px;background:#fff}.seg button.on{background:var(--navy);color:#fff}
+iframe{width:100%;height:640px;border:1px solid var(--line);border-top:none;border-radius:0 0 10px 10px;background:#fff}
+.banner{padding:10px 14px;border-radius:8px;margin-top:12px;font-size:14px}
+.banner.warn{background:#fff6e0;color:#7a5200;border:1px solid #f0d28a}.banner.err{background:#fdecec;color:#8a1c1c;border:1px solid #f4b8b8}.banner.ok{background:#e8f6ec;color:#1e5a2e;border:1px solid #b9e3c5}
+.hidden{display:none}
+iframe.pv{height:340px;border:1px solid var(--line);border-radius:10px}
+.tools{display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap}
+a.dl{color:var(--acc);text-decoration:none;border:1px solid #c9d2e0;padding:9px 16px;border-radius:8px;background:#fff}
+a.dl:hover{background:#eef3fb}
+</style>
+</head>
+<body>
+<header>
+  <h1>Payroll Process Automation</h1>
+  <p>Onboarding · Invoices · Leave · Expenses · Inventory · Budget · Orders — one sheet in, decisions and evidence out. Every system is reached through APIs, nothing is opened on screen.</p>
+</header>
+<main>
+
+<section class="card">
+  <h2><span class="num">1</span> Select spreadsheet</h2>
+  <div class="row">
+    <select id="sheet"></select>
+    <button id="pick" title="Choose an .xlsx file from your computer">📁 Choose file…</button>
+    <input type="file" id="file" accept=".xlsx" class="hidden">
+    <button class="primary" id="start" disabled>▶ Start automation</button>
+    <button id="reset" title="Create a new dummy sheet with new people, mails and documents">↻ New dummy data</button>
+  </div>
+  <div class="meta" id="meta">Preparing dummy data…</div>
+</section>
+
+<section class="card">
+  <h2><span class="num">2</span> Live progress</h2>
+  <div class="pl"><span id="pltext">Waiting to start</span><span id="plpct">0%</span></div>
+  <div class="bar" id="bar"><i></i></div>
+  <div id="log"></div>
+  <div id="banner"></div>
+</section>
+
+<section class="card hidden" id="previewCard">
+  <h2>📥 Input preview <span style="font-weight:400;color:var(--mut);font-size:13px">— the sheet that will be processed</span></h2>
+  <iframe id="preview" class="pv" title="input preview"></iframe>
+</section>
+
+<section class="card hidden" id="results">
+  <h2><span class="num">3</span> Results</h2>
+  <div class="tabs">
+    <button class="tab on" data-tab="dashboard">📊 Dashboard</button>
+    <button class="tab" data-tab="sheet">📄 Spreadsheet</button>
+    <button class="tab" data-tab="mailbox">📬 Mailbox</button>
+    <span class="spacer"></span>
+    <span class="seg" id="langseg"><button data-lang="ja" class="on">日本語</button><button data-lang="en">English</button></span>
+  </div>
+  <iframe id="frame" title="results"></iframe>
+  <div class="tools">
+    <a class="dl" id="dl" href="#">⬇ Download spreadsheet</a>
+    <button id="appr" class="hidden"></button>
+  </div>
+</section>
+
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let since = 0, phase = "idle", tab = "dashboard", lang = "ja", prevPhase = "idle", sheets = [], first = true, wantSheet = null;
+
+const esc = s => s.replace(/[&<>]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;"}[c]));
+function addLines(lines) {
+  if (!lines.length) return;
+  const log = $("log"), stick = log.scrollTop + log.clientHeight >= log.scrollHeight - 40;
+  for (const l of lines) {
+    const d = document.createElement("div");
+    let h = esc(l);
+    if (l.startsWith("$ ")) h = `<span class="cmd">${h}</span>`;
+    else h = h.replace(/\b(APPROVED|REJECTED|NEEDS_REVIEW|ERROR)\b/, '<span class="$1">$1</span>');
+    d.innerHTML = h; log.appendChild(d);
+  }
+  while (log.childElementCount > 2500) log.removeChild(log.firstChild);
+  if (stick) log.scrollTop = log.scrollHeight;
+}
+
+function frameSrc() {
+  const t = Date.now(), name = encodeURIComponent($("sheet").value);
+  if (tab === "dashboard") return `/view/dashboard?t=${t}`;
+  if (tab === "sheet") return `/view/sheet?name=${name}&lang=${lang}&t=${t}`;
+  return `/view/mailbox?lang=${lang}&t=${t}`;
+}
+function showTab(t) {
+  tab = t;
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+  $("langseg").style.visibility = t === "dashboard" ? "hidden" : "visible";
+  $("frame").src = frameSrc();
+}
+document.querySelectorAll(".tab").forEach(b => b.onclick = () => showTab(b.dataset.tab));
+document.querySelectorAll("#langseg button").forEach(b => b.onclick = () => {
+  lang = b.dataset.lang;
+  document.querySelectorAll("#langseg button").forEach(x => x.classList.toggle("on", x === b));
+  $("frame").src = frameSrc();
+});
+
+async function post(url, body) {
+  const r = await fetch(url, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body || {})});
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.statusText); }
+  return r.json();
+}
+let lastPreview = null;
+function loadPreview() {
+  const name = $("sheet").value; if (!name) return;
+  lastPreview = name;
+  $("preview").src = `/view/preview?name=${encodeURIComponent(name)}&t=${Date.now()}`;
+  $("previewCard").classList.remove("hidden");
+}
+$("sheet").onchange = loadPreview;
+function banner(kind, text) { $("banner").innerHTML = text ? `<div class="banner ${kind}">${esc(text)}</div>` : ""; }
+
+$("pick").onclick = () => $("file").click();
+$("file").onchange = async () => {
+  const f = $("file").files[0]; if (!f) return;
+  banner("", "");
+  try {
+    const r = await fetch(`/api/upload?name=${encodeURIComponent(f.name)}`, {method: "POST", body: await f.arrayBuffer()});
+    const j = await r.json(); if (!r.ok) throw new Error(j.detail || r.statusText);
+    const opt = document.createElement("option"); opt.textContent = j.name;
+    if (![...$("sheet").options].some(o => o.value === j.name)) $("sheet").appendChild(opt);
+    $("sheet").value = j.name; sheets = [...$("sheet").options].map(o => o.value); loadPreview();
+    if (j.matched === j.rows) banner("ok", `${j.name} selected — ${j.rows} cases, all known to the connected systems.`);
+    else banner("warn", `${j.name} selected — ${j.rows} cases, but only ${j.matched} exist in the connected (dummy) systems. ` +
+      `The other ${j.rows - j.matched} will be rejected with "record not found". A real company system would hold those records.`);
+  } catch (e) { banner("err", e.message); }
+  $("file").value = "";
+};
+$("start").onclick = async () => {
+  banner("", ""); $("results").classList.add("hidden"); $("log").innerHTML = ""; since = 0;
+  try { await post("/api/start", {sheet: $("sheet").value}); } catch (e) { banner("err", e.message); }
+};
+$("appr").onclick = async () => {
+  banner("", ""); $("log").innerHTML = ""; since = 0;
+  try { await post("/api/approvals", {sheet: $("sheet").value}); } catch (e) { banner("err", e.message); }
+};
+$("reset").onclick = async () => {
+  $("reset").disabled = true; $("meta").textContent = "Creating new dummy data…";
+  try { await post("/api/reset"); $("results").classList.add("hidden"); loadPreview(); $("log").innerHTML = ""; since = 0; banner("", ""); }
+  catch (e) { banner("err", e.message); }
+  $("reset").disabled = false;
+};
+
+async function poll() {
+  try {
+    const s = await (await fetch(`/api/state?since=${since}`)).json();
+    if (s.next < since) { $("log").innerHTML = ""; since = 0; return; }    // a new job replaced the log
+    addLines(s.lines); since = s.next; phase = s.phase;
+    if (JSON.stringify(s.sheets) !== JSON.stringify(sheets)) {
+      const keep = $("sheet").value; sheets = s.sheets;
+      $("sheet").innerHTML = sheets.map(x => `<option>${esc(x)}</option>`).join("");
+      if (sheets.includes(keep)) $("sheet").value = keep;
+    }
+    if (sheets.length && $("sheet").value !== lastPreview && $("results").classList.contains("hidden")) loadPreview();
+    const m = s.meta || {};
+    if (m.rows) $("meta").innerHTML = `<span class="pill">${m.rows} cases</span><span class="pill">${Object.keys(m.by_process).length} processes × ${m.per_process}</span>` +
+      `<span class="pill">${m.files_on_drive} documents on the shared drive</span><span class="pill">seed ${m.seed}</span> Dummy sheet created when the app started.`;
+    const running = phase === "running", pct = s.total ? Math.min(100, Math.round(100 * s.done / s.total)) : 0;
+    $("start").disabled = running || !sheets.length; $("reset").disabled = running; $("appr").disabled = running;
+    $("bar").className = "bar" + (phase === "done" ? " done" : phase === "error" ? " err" : "");
+    $("bar").firstElementChild.style.width = (phase === "done" ? 100 : pct) + "%";
+    $("plpct").textContent = (phase === "done" ? 100 : pct) + "%";
+    $("pltext").textContent = running ? `${s.job}: ${s.done} / ${s.total}` : phase === "done" ? `${s.job} finished` : phase === "error" ? "Stopped with an error" : "Waiting to start";
+    if (phase === "error") banner("err", (s.error || "Error") + " — see the log above. If the spreadsheet is open in Excel, close it and press Start again.");
+    if (phase === "done" && (prevPhase === "running" || first)) {
+      banner("ok", "Finished. Results are shown below.");
+      $("results").classList.remove("hidden"); $("previewCard").classList.add("hidden");
+      $("dl").href = `/download/sheet?name=${encodeURIComponent($("sheet").value)}`;
+      showTab("dashboard");
+      $("results").scrollIntoView({behavior: "smooth", block: "start"});
+    }
+    if (phase === "done") {
+      $("appr").classList.toggle("hidden", !s.pending);
+      $("appr").textContent = `👤 Approvers reply (demo) & resume — ${s.pending} waiting`;
+    }
+    prevPhase = phase; first = false;
+  } catch (e) { /* server restarting: try again */ }
+}
+setInterval(poll, 600); poll();
+</script>
+</body>
+</html>

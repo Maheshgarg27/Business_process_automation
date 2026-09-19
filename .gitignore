@@ -27,3 +27,9 @@ backups/
 data/input/
 __pycache__/
 *.pyc
+
+**/runtime/
+**/backups/
+**/data/input/
+__pycache__/
+*.pyc
